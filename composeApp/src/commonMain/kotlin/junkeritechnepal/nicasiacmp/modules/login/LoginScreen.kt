@@ -30,6 +30,8 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import junkeritechnepal.nicasiacmp.app.navigation.LocalNavController
+import junkeritechnepal.nicasiacmp.app.navigation.NavigationRoutes
 import junkeritechnepal.nicasiacmp.modules.designSystem.SampleTextView
 import junkeritechnepal.nicasiacmp.modules.login.LoginViewModel
 import nicasia_cmp.composeapp.generated.resources.Res
@@ -72,6 +74,8 @@ fun LoginScreen() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun LoginNavHeaderView(scrollBehavior: TopAppBarScrollBehavior) {
+    val navController = LocalNavController.current
+
     Column {
         TopAppBar(
             title = {
@@ -86,7 +90,7 @@ private fun LoginNavHeaderView(scrollBehavior: TopAppBarScrollBehavior) {
                 }
             },
             navigationIcon = {
-                IconButton(onClick = { }) {
+                IconButton(onClick = { navController.navigate(NavigationRoutes.SPLASH_ROUTE.name) }) {
                     Icon(Icons.Outlined.Home, contentDescription = "Home")
                 }
             },

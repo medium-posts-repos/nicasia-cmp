@@ -1,5 +1,8 @@
 package junkeritechnepal.nicasiacmp.app.navigation
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 enum class NavigationRoutes {
     LOGIN_ROUTE,
     SPLASH_ROUTE,
