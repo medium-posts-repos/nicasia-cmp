@@ -13,6 +13,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import junkeritechnepal.nicasiacmp.modules.designSystem.DesignSystemScreen
 
 val LocalNavController = compositionLocalOf<NavHostController> {
     error("NavController not provided")
@@ -57,8 +58,8 @@ fun AppNavigationHost() {
                 LoginScreen()
             }
 
-            composable(NavigationRoutes.SPLASH_ROUTE.name) {
-                SplashScreen()
+            composable(NavigationRoutes.DESIGN_SYSTEM.name) {
+                DesignSystemScreen()
             }
         }
     }

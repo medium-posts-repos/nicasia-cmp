@@ -45,7 +45,7 @@ val AppTypography = Typography(
 
 @Preview
 @Composable
-fun SampleTextView() {
+fun DesignSystemScreen() {
     Column {
         Text("Title Large", style = AppTypography.titleLarge)
         Text("Title Medium", style = AppTypography.titleMedium)

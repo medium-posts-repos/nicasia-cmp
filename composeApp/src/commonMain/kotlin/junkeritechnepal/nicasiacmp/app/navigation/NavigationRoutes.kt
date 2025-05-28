@@ -11,5 +11,6 @@ enum class NavigationRoutes {
     LOCATION_REQUEST_ROUTE,
     DASHBOARD_ROUTE,
     RIDE_MAP_ROUTE,
-    PROFILE_ROUTE
+    PROFILE_ROUTE,
+    DESIGN_SYSTEM
 }
