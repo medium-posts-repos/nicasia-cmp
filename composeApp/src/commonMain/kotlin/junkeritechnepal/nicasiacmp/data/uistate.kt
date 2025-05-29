@@ -8,4 +8,9 @@ data class GenericUIState<T>(
         this.isVisible = isVisible
         return this
     }
+
+    fun updateData(data: T): GenericUIState<T> {
+        this.data = data
+        return this
+    }
 }

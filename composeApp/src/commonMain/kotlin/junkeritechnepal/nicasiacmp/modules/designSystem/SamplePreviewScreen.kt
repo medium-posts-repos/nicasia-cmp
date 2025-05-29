@@ -42,6 +42,19 @@ val AppTypography = Typography(
     )
 )
 
+object AppTextStyle {
+    val bodyNormalDark = TextStyle(
+        fontSize = 14.sp,
+        fontWeight = FontWeight.Normal,
+        color = textColorDark
+    )
+
+    val bodyMediumLight = TextStyle(
+        fontSize = 14.sp,
+        fontWeight = FontWeight.Medium,
+        color = Color.White
+    )
+}
 
 @Preview
 @Composable
@@ -52,5 +65,6 @@ fun DesignSystemScreen() {
         Text("Body Large", style = AppTypography.bodyLarge)
         Text("Body Medium", style = AppTypography.bodyMedium)
         Text("Label Small", style = AppTypography.labelSmall)
+        Text("Label Small Dark", style = AppTypography.labelSmall.copy(color = textColorDark))
     }
 }

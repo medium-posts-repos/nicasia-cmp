@@ -1,11 +1,18 @@
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -16,8 +23,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -33,6 +45,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,14 +54,26 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.ModifierInfo
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import junkeritechnepal.nicasiacmp.app.navigation.LocalNavController
 import junkeritechnepal.nicasiacmp.app.navigation.NavigationRoutes
+import junkeritechnepal.nicasiacmp.modules.designSystem.AppTextStyle
+import junkeritechnepal.nicasiacmp.modules.designSystem.AppTypography
+import junkeritechnepal.nicasiacmp.modules.login.LoginCountryResDto
 import junkeritechnepal.nicasiacmp.modules.login.LoginViewModel
+import junkeritechnepal.nicasiacmp.modules.login.LoginViewModelExt
+import junkeritechnepal.nicasiacmp.modules.login.LoginViewModelExt.dismissCountrySheet
+import junkeritechnepal.nicasiacmp.modules.login.LoginViewModelExt.fetchCountrySheet
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import nicasia_cmp.composeapp.generated.resources.Res
 import nicasia_cmp.composeapp.generated.resources.nicasisa
@@ -65,22 +90,27 @@ fun LoginScreen() {
             LoginNavHeaderView(scrollBehavior)
         }
     ) { padding ->
-        var email by remember { mutableStateOf("") }
-        var password by remember { mutableStateOf("") }
-
         LazyColumn(
             modifier = Modifier
                 .background(Color.White)
                 .fillMaxSize()
                 .padding(padding),
-            contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            contentPadding = PaddingValues(vertical = 0.dp, horizontal = 24.dp),
         ) {
+
             item {
+                Text("Welcome", style = AppTypography.bodyLarge, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
+                Spacer(modifier = Modifier.height(32.dp))
+                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    InputMobileNumberView(loginViewModel)
+                    InputPasswordView(loginViewModel)
+                }
+                RememberMeView()
+                Spacer(modifier = Modifier.height(10.dp))
+            }
 
-                Text("Welcome", style = MaterialTheme.typography.headlineLarge, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
-                LoginPasswordView(loginViewModel)
-
+            item {
+                ScalableButtonClick()
             }
         }
     }
@@ -123,17 +153,13 @@ private fun LoginNavHeaderView(scrollBehavior: TopAppBarScrollBehavior) {
         )
 
         // Bottom divider line
-        HorizontalDivider(thickness = 1.dp, color = Color.LightGray, modifier = Modifier.padding(vertical = 8.dp))
+        HorizontalDivider(thickness = 0.8.dp, color = Color.Gray, modifier = Modifier.padding(vertical = 8.dp))
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun LoginPasswordView(loginViewModel: LoginViewModel) {
+private fun InputPasswordView(loginViewModel: LoginViewModel) {
     var password by remember { mutableStateOf("") }
-    val showCountrySheet = loginViewModel.countrySheetState.isVisible
-    val countrySheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-
     TextField(
         value = password,
         onValueChange = { password = it },
@@ -144,11 +170,45 @@ private fun LoginPasswordView(loginViewModel: LoginViewModel) {
                 loginViewModel.fetchCountrySheet()
 
             }) {
-                Icon(Icons.Default.Lock, contentDescription = "Password Icon")
+                Icon(Icons.Outlined.Lock, contentDescription = "Password Icon")
             }
         },
-        modifier = Modifier.fillMaxWidth()
-            .border(width = 1.dp, color = Color.LightGray, shape = RoundedCornerShape(12.dp)),
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 4.dp)
+            .border(width = 0.9.dp, color = Color.Gray, shape = RoundedCornerShape(8.dp)),
+        colors = TextFieldDefaults.colors(
+            unfocusedContainerColor = Color.Transparent,
+            focusedIndicatorColor = Color.Transparent,
+            focusedContainerColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent
+        )
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun InputMobileNumberView(loginViewModel: LoginViewModel) {
+    var userNumber by remember { mutableStateOf("") }
+    var countryLeadingState by remember { mutableStateOf("\uD83C\uDDF3\uD83C\uDDF5 NP") }
+    val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val countrySheetState = loginViewModel.countrySheetState.collectAsState()
+
+    val onItemClick: (item: LoginCountryResDto) -> Unit  = { countryLeadingState = "${it.emoji} ${it.code}" }
+
+    TextField(
+        value = userNumber,
+        onValueChange = { userNumber = it },
+        placeholder = { Text("Mobile Number") },
+        singleLine = true,
+        leadingIcon = {
+            IconButton(onClick = {
+                loginViewModel.fetchCountrySheet()
+
+            }) {
+                Text(countryLeadingState)
+            }
+        },
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 4.dp)
+            .border(width = 0.9.dp, color = Color.Gray, shape = RoundedCornerShape(12.dp)),
         colors = TextFieldDefaults.colors(
             unfocusedContainerColor = Color.Transparent,
             focusedIndicatorColor = Color.Transparent,
@@ -157,24 +217,68 @@ private fun LoginPasswordView(loginViewModel: LoginViewModel) {
         )
     )
 
-    if(showCountrySheet) {
+    if(countrySheetState.value.isVisible) {
+        println("showCountrySheet..")
         ModalBottomSheet(
             shape = RoundedCornerShape(14.dp),
-            onDismissRequest = {  },
-            sheetState = countrySheetState
+            onDismissRequest = { loginViewModel.dismissCountrySheet() },
+            sheetState = bottomSheetState
         ) {
-            Column {
-                Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
+            Column(modifier = Modifier.padding(16.dp)) {
+                Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)) {
                     Text("Choose a country", fontSize = 16.sp, fontStyle = FontStyle.Normal)
-                    Image(imageVector = Icons.Outlined.Close, "")
+                    Image(imageVector = Icons.Outlined.Close, "", modifier = Modifier.clickable {
+                        loginViewModel.dismissCountrySheet()
+                    })
                 }
-                loginViewModel.countrySheetState.data.forEach {
-                    Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                        Image(imageVector = Icons.Outlined.Close, "")
-                        Text("${it.name} ${it.emoji}")
+                loginViewModel.countrySheetState.value.data.forEach {
+                    Row(horizontalArrangement = Arrangement.spacedBy(4.dp), modifier = Modifier.padding(vertical = 4.dp).clickable { onItemClick(it) } ) {
+                        Text("${it.emoji} ${it.name} ")
                     }
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun RememberMeView() {
+    val checkBoxState = remember { mutableStateOf(false) }
+    Row(horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
+        Checkbox(checkBoxState.value, onCheckedChange = { checkBoxState.value = it })
+        Text("Remember Me", style = AppTextStyle.bodyNormalDark)
+    }
+}
+
+@Composable
+fun ScalableButtonClick() {
+    val scale = remember { Animatable(1f) }
+    val scope = rememberCoroutineScope()
+    var isAnimating = false
+
+    val onClick = {
+        scope.launch {
+            scale.animateTo(0.96f, animationSpec = tween(250))
+            scale.animateTo(1f, animationSpec = tween(150))
+            isAnimating = false
+        }
+    }
+
+    Button(
+        onClick = {
+            if(!isAnimating) {
+                isAnimating = true
+                onClick()
+            }
+        },
+        shape = RoundedCornerShape(8.dp),
+        colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
+        modifier = Modifier.fillMaxWidth()
+            .graphicsLayer {
+                scaleX = scale.value
+                scaleY = scale.value
+            }
+    ) {
+        Text("Login", style = AppTextStyle.bodyMediumLight)
     }
 }

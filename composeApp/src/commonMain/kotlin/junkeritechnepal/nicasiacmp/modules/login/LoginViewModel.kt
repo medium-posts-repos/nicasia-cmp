@@ -1,41 +1,34 @@
 package junkeritechnepal.nicasiacmp.modules.login
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import junkeritechnepal.nicasiacmp.data.GenericUIState
 import junkeritechnepal.nicasiacmp.infrastructure.network.NetworkConstants
 import junkeritechnepal.nicasiacmp.infrastructure.network.NetworkService
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
-import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.plus
 
 class LoginViewModel: ViewModel() {
 
-    private val networkService by lazy { NetworkService.INSTANCE }
+    internal val networkService by lazy { NetworkService.INSTANCE }
 
-    var countrySheetState by mutableStateOf(
+    internal val _countrySheetState = MutableStateFlow(
         GenericUIState<List<LoginCountryResDto>>(emptyList(), false)
     )
+    val countrySheetState = _countrySheetState.asStateFlow()
+}
 
-    fun fetchCountrySheet() {
-        countrySheetState = countrySheetState.updateVisibility(true)
+/** Country Sheet Extension */
+object LoginViewModelExt {
+    fun LoginViewModel.fetchCountrySheet() {
         viewModelScope.launch {
-            delay(1000)
-            countrySheetState = countrySheetState.updateVisibility(false)
-            println("current value ${countrySheetState}")
+            val result = networkService.getRequest<List<LoginCountryResDto>>(routeCode = NetworkConstants.FETCH_COUNTRY_JSON)
+            _countrySheetState.value = countrySheetState.value.copy(result, true)
         }
-//        viewModelScope.launch {
-//            val result = networkService.getRequest<List<LoginCountryResDto>>(routeCode = NetworkConstants.FETCH_COUNTRY_JSON)
-//            countrySheetState = countrySheetState.copy(result, true)
-//            println("fetchCountrySheet -> $result")
-//        }
+    }
+    fun LoginViewModel.dismissCountrySheet() {
+        _countrySheetState.value = countrySheetState.value.copy(emptyList(),false)
     }
 }
