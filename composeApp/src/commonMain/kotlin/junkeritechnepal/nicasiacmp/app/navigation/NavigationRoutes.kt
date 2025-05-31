@@ -5,6 +5,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 enum class NavigationRoutes {
     LOGIN_ROUTE,
+    LOGIN_SECONDARY_ROUTE,
     SPLASH_ROUTE,
     WALKTHROUGH_ROUTE,
     REGISTER_ROUTE,

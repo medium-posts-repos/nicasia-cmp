@@ -49,11 +49,21 @@ object AppTextStyle {
         color = textColorDark
     )
 
-    val bodyMediumLight = TextStyle(
-        fontSize = 14.sp,
-        fontWeight = FontWeight.Medium,
-        color = Color.White
-    )
+    fun bodyLight(fontWeight: FontWeight = FontWeight.Medium): TextStyle {
+        return TextStyle(
+            fontSize = 14.sp,
+            fontWeight = fontWeight,
+            color = Color.White
+        )
+    }
+
+    fun largeBold(fontWeight: FontWeight = FontWeight.Bold): TextStyle {
+        return TextStyle(
+            fontSize = 18.sp,
+            fontWeight = fontWeight,
+            color = Color.DarkGray
+        )
+    }
 }
 
 @Preview

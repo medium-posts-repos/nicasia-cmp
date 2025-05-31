@@ -10,6 +10,7 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -17,6 +18,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -30,6 +32,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxColors
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -59,7 +63,9 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.ModifierInfo
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import junkeritechnepal.nicasiacmp.app.navigation.LocalNavController
@@ -76,6 +82,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import nicasia_cmp.composeapp.generated.resources.Res
+import nicasia_cmp.composeapp.generated.resources.compose_multiplatform
 import nicasia_cmp.composeapp.generated.resources.nicasisa
 import org.jetbrains.compose.resources.painterResource
 
@@ -111,6 +118,8 @@ fun LoginScreen() {
 
             item {
                 ScalableButtonClick()
+                Spacer(modifier = Modifier.height(24.dp))
+                NeedHelpLoginView()
             }
         }
     }
@@ -140,7 +149,7 @@ private fun LoginNavHeaderView(scrollBehavior: TopAppBarScrollBehavior) {
                 }
             },
             actions = {
-                IconButton(onClick = { navController.navigate(NavigationRoutes.DESIGN_SYSTEM.name) }) {
+                IconButton(onClick = { navController.navigate(NavigationRoutes.LOGIN_SECONDARY_ROUTE.name) }) {
                     Icon(Icons.Outlined.Settings, contentDescription = "Language")
                 }
 
@@ -153,7 +162,7 @@ private fun LoginNavHeaderView(scrollBehavior: TopAppBarScrollBehavior) {
         )
 
         // Bottom divider line
-        HorizontalDivider(thickness = 0.8.dp, color = Color.Gray, modifier = Modifier.padding(vertical = 8.dp))
+        HorizontalDivider(thickness = 0.4.dp, color = Color.Gray, modifier = Modifier.padding(vertical = 8.dp))
     }
 }
 
@@ -242,15 +251,6 @@ private fun InputMobileNumberView(loginViewModel: LoginViewModel) {
 }
 
 @Composable
-private fun RememberMeView() {
-    val checkBoxState = remember { mutableStateOf(false) }
-    Row(horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
-        Checkbox(checkBoxState.value, onCheckedChange = { checkBoxState.value = it })
-        Text("Remember Me", style = AppTextStyle.bodyNormalDark)
-    }
-}
-
-@Composable
 fun ScalableButtonClick() {
     val scale = remember { Animatable(1f) }
     val scope = rememberCoroutineScope()
@@ -279,6 +279,48 @@ fun ScalableButtonClick() {
                 scaleY = scale.value
             }
     ) {
-        Text("Login", style = AppTextStyle.bodyMediumLight)
+        Text("Login", style = AppTextStyle.bodyLight(fontWeight = FontWeight.SemiBold))
     }
+}
+
+@Composable
+private fun RememberMeView() {
+    val checkBoxState = remember { mutableStateOf(false) }
+    Row(horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
+        Checkbox(checkBoxState.value, colors = CheckboxDefaults.colors(checkedColor = Color.Red, uncheckedColor = Color.Red), onCheckedChange = { checkBoxState.value = it })
+        Text("Remember Me", style = AppTextStyle.bodyNormalDark)
+    }
+}
+
+
+@Composable
+private fun NeedHelpLoginView() {
+   Column(horizontalAlignment = Alignment.CenterHorizontally) {
+       Button(
+           contentPadding = PaddingValues(vertical = 2.dp),
+           colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
+           onClick = { /* */ },
+           modifier = Modifier.width(IntrinsicSize.Max).padding(vertical = 2.dp)
+       ) { // RowScope
+           Text(text = "Unable to login?", style = AppTextStyle.largeBold())
+           Spacer(modifier = Modifier.width(16.dp))
+           Icon(
+               painter = painterResource(
+                   Res.drawable.compose_multiplatform
+               ),
+               contentDescription = null,
+               Modifier.height(20.dp),
+               tint = Color.Red
+           )
+       }
+
+       Button(
+           contentPadding = PaddingValues(vertical = 2.dp),
+           colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
+           onClick = { /* */ },
+           modifier = Modifier.width(IntrinsicSize.Max)
+       ) { // RowScope
+           Text(text = "Need Help?", style = AppTextStyle.largeBold())
+       }
+   }
 }

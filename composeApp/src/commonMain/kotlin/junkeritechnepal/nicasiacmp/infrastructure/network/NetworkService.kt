@@ -48,13 +48,18 @@ class NetworkService {
         routeCode: String,
         headers: Map<String, String> = emptyMap()
     ): T {
-        val response = httpClient.get(NetworkConstants.routeFor(routeCode)) {
-            headers.forEach { (key, value) ->
-                header(key, value)
+        return try {
+            val response = httpClient.get(NetworkConstants.routeFor(routeCode)) {
+                headers.forEach { (key, value) ->
+                    header(key, value)
+                }
             }
+            println("GET Success: ${response.status}")
+            response.body()
+        } catch (e: Exception) {
+            println("GET Error: ${e.message}")
+            throw e // or return a default T or custom error object
         }
-        println(response)
-        return response.body()
     }
 
     suspend inline fun <reified Req, reified Res> postRequest(
@@ -62,12 +67,18 @@ class NetworkService {
         body: Req,
         headers: Map<String, String> = mapOf("Content-Type" to "application/json")
     ): Res {
-        val response = httpClient.post(NetworkConstants.routeFor(routeCode)) {
-            headers.forEach { (key, value) ->
-                header(key, value)
+        return try {
+            val response = httpClient.post(NetworkConstants.routeFor(routeCode)) {
+                headers.forEach { (key, value) ->
+                    header(key, value)
+                }
+                setBody(body)
             }
-            setBody(body)
+            println("POST Success: ${response.status}")
+            response.body()
+        } catch (e: Exception) {
+            println("POST Error: ${e.message}")
+            throw e // or return a default Res or custom error object
         }
-        return response.body()
     }
 }

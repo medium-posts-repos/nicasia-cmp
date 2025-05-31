@@ -14,6 +14,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import junkeritechnepal.nicasiacmp.modules.designSystem.DesignSystemScreen
+import junkeritechnepal.nicasiacmp.modules.login.LoginSecondaryScreen
 
 val LocalNavController = compositionLocalOf<NavHostController> {
     error("NavController not provided")
@@ -32,34 +33,38 @@ fun AppNavigationHost() {
             enterTransition = {
                 slideIntoContainer(
                     AnimatedContentTransitionScope.SlideDirection.Left,
-                    animationSpec = tween(400)
+                    animationSpec = tween(300)
                 )
             },
             exitTransition = {
                 slideOutOfContainer(
                     AnimatedContentTransitionScope.SlideDirection.Left,
-                    animationSpec = tween(400)
+                    animationSpec = tween(300)
                 )
             },
             popEnterTransition = {
                 slideIntoContainer(
                     AnimatedContentTransitionScope.SlideDirection.Right,
-                    animationSpec = tween(500)
+                    animationSpec = tween(300)
                 )
             },
             popExitTransition = {
                 slideOutOfContainer(
                     AnimatedContentTransitionScope.SlideDirection.Right,
-                    animationSpec = tween(500)
+                    animationSpec = tween(300)
                 )
             }
         ) {
+            composable(NavigationRoutes.DESIGN_SYSTEM.name) {
+                DesignSystemScreen()
+            }
+
             composable(NavigationRoutes.LOGIN_ROUTE.name) {
                 LoginScreen()
             }
 
-            composable(NavigationRoutes.DESIGN_SYSTEM.name) {
-                DesignSystemScreen()
+            composable(NavigationRoutes.LOGIN_SECONDARY_ROUTE.name) {
+                LoginSecondaryScreen()
             }
         }
     }

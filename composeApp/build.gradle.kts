@@ -53,6 +53,7 @@ kotlin {
             implementation(libs.ktor.serialization.kotlinx.json)
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.navigation.compose)
+            implementation(libs.coil3.coil.compose)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
