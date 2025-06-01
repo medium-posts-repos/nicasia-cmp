@@ -1,5 +1,6 @@
 package junkeritechnepal.nicasiacmp.app.navigation
 
+import DashboardContainerScreen
 import LoginScreen
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
@@ -65,6 +66,10 @@ fun AppNavigationHost() {
 
             composable(NavigationRoutes.LOGIN_SECONDARY_ROUTE.name) {
                 LoginSecondaryScreen()
+            }
+
+            composable(NavigationRoutes.DASHBOARD_ROUTE.name) {
+                DashboardContainerScreen()
             }
         }
     }

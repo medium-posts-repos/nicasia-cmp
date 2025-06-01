@@ -13,6 +13,7 @@ androidx-testExt = "1.2.1"
 coilComposeVersion = "3.2.0"
 composeMultiplatform = "1.8.1"
 junit = "4.13.2"
+kamelImageDefault = "1.0.5"
 kotlin = "2.1.21"
 kotlinxSerializationJson = "1.7.3"
 ktorClientCio = "3.0.3"
@@ -23,6 +24,7 @@ navigationCompose = "2.9.0-beta01"
 
 [libraries]
 coil3-coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilComposeVersion" }
+kamel-image-default = { module = "media.kamel:kamel-image-default", version.ref = "kamelImageDefault" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-testJunit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 junit = { module = "junit:junit", version.ref = "junit" }

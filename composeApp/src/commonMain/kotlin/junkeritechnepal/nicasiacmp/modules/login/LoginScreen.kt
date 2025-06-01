@@ -252,6 +252,7 @@ private fun InputMobileNumberView(loginViewModel: LoginViewModel) {
 
 @Composable
 fun ScalableButtonClick() {
+    val navigator = LocalNavController.current
     val scale = remember { Animatable(1f) }
     val scope = rememberCoroutineScope()
     var isAnimating = false
@@ -261,6 +262,7 @@ fun ScalableButtonClick() {
             scale.animateTo(0.96f, animationSpec = tween(250))
             scale.animateTo(1f, animationSpec = tween(150))
             isAnimating = false
+            navigator.navigate(NavigationRoutes.DASHBOARD_ROUTE.name)
         }
     }
 
@@ -302,7 +304,7 @@ private fun NeedHelpLoginView() {
            onClick = { /* */ },
            modifier = Modifier.width(IntrinsicSize.Max).padding(vertical = 2.dp)
        ) { // RowScope
-           Text(text = "Unable to login?", style = AppTextStyle.largeBold())
+           Text(text = "Unable to login?", style = AppTextStyle.largeDark())
            Spacer(modifier = Modifier.width(16.dp))
            Icon(
                painter = painterResource(
@@ -320,7 +322,7 @@ private fun NeedHelpLoginView() {
            onClick = { /* */ },
            modifier = Modifier.width(IntrinsicSize.Max)
        ) { // RowScope
-           Text(text = "Need Help?", style = AppTextStyle.largeBold())
+           Text(text = "Need Help?", style = AppTextStyle.largeDark())
        }
    }
 }

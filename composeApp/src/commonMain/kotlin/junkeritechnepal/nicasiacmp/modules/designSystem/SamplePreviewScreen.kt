@@ -1,6 +1,7 @@
 package junkeritechnepal.nicasiacmp.modules.designSystem
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
@@ -57,11 +58,18 @@ object AppTextStyle {
         )
     }
 
-    fun largeBold(fontWeight: FontWeight = FontWeight.Bold): TextStyle {
+    fun largeDark(fontWeight: FontWeight = FontWeight.Bold): TextStyle {
         return TextStyle(
             fontSize = 18.sp,
             fontWeight = fontWeight,
             color = Color.DarkGray
+        )
+    }
+    fun smallLight(fontWeight: FontWeight = FontWeight.Bold): TextStyle {
+        return TextStyle(
+            fontSize = 12.sp,
+            fontWeight = fontWeight,
+            color = Color.White
         )
     }
 }
@@ -69,12 +77,14 @@ object AppTextStyle {
 @Preview
 @Composable
 fun DesignSystemScreen() {
-    Column {
-        Text("Title Large", style = AppTypography.titleLarge)
-        Text("Title Medium", style = AppTypography.titleMedium)
-        Text("Body Large", style = AppTypography.bodyLarge)
-        Text("Body Medium", style = AppTypography.bodyMedium)
-        Text("Label Small", style = AppTypography.labelSmall)
-        Text("Label Small Dark", style = AppTypography.labelSmall.copy(color = textColorDark))
+    Scaffold {
+        Column {
+            Text("Title Large", style = AppTypography.titleLarge)
+            Text("Title Medium", style = AppTypography.titleMedium)
+            Text("Body Large", style = AppTypography.bodyLarge)
+            Text("Body Medium", style = AppTypography.bodyMedium)
+            Text("Label Small", style = AppTypography.labelSmall)
+            Text("Label Small Dark", style = AppTypography.labelSmall.copy(color = textColorDark))
+        }
     }
 }
