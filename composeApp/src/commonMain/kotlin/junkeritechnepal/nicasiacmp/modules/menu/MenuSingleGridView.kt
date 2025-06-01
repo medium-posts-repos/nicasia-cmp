@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -21,16 +20,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
+import junkeritechnepal.nicasiacmp.modules.designSystem.AppTextStyle
 import junkeritechnepal.nicasiacmp.modules.designSystem.AppTypography
-import org.jetbrains.compose.resources.vectorResource
 
 @Composable
-fun MenuSingleGridView(data: MenuResDto) {
-    data.data?.let { HorizontalGridBox(items = data.data) }
+fun MenuSingleGridView(title: String = "Top Services", data: MenuResDto) {
+    data.data?.let { HorizontalGridBox(title, items = data.data) }
 }
 
 @Composable
 fun HorizontalGridBox(
+    title: String,
     items: List<MenuItemDto>,
     rowsPerColumn: Int = 4
 ) {
@@ -39,14 +39,13 @@ fun HorizontalGridBox(
         items.chunked(rowsPerColumn)
     }
 
-    println("columns $columns")
-
     Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+            .fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalAlignment = Alignment.Start
     ) {
+        Text(title, style = AppTextStyle.bodyNormalDark)
         columns.forEach { rowItems ->
             Row(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -61,7 +60,11 @@ fun HorizontalGridBox(
                         contentAlignment = Alignment.Center
                     ) {
                         println(item.icon)
-                       Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(2.dp, alignment = Alignment.CenterVertically)) {
+                       Column(
+                           modifier = Modifier.padding(vertical = 2.dp),
+                           horizontalAlignment = Alignment.CenterHorizontally,
+                           verticalArrangement = Arrangement.spacedBy(2.dp, alignment = Alignment.Top)
+                       ) {
                            KamelImage(
                                { asyncPainterResource(data = item.icon ?: "") },
                                modifier = Modifier.height(28.dp).width(28.dp),

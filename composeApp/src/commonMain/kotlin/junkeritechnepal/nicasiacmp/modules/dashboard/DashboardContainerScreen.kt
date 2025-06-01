@@ -1,7 +1,10 @@
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PageSize
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
@@ -66,7 +69,7 @@ private fun PageScreen(label: String, color: Color) {
 private fun DashboardScreen() {
     var selectedTab by remember { mutableIntStateOf(0) }
     val menuViewModel by lazy { MenuViewModel() }
-
+    val scrollState = rememberScrollState()
 
     val items = listOf("Home", "Search", "Add", "Profile", "More")
 
@@ -88,14 +91,14 @@ private fun DashboardScreen() {
         }
     ) { innerPadding ->
         when(selectedTab) {
-            0 -> { HomeScreen(menuViewModel) }
+            0 -> { HomeScreen(menuViewModel, scrollState) }
             else -> { Text("Current tab $selectedTab") }
         }
     }
 }
 
 @Composable
-private fun HomeScreen(menuViewModel: MenuViewModel) {
+private fun HomeScreen(menuViewModel: MenuViewModel, scrollState: ScrollState) {
     val menuApiRes = menuViewModel.menuApiResState.collectAsState()
 
     LaunchedEffect(Unit) {
@@ -103,11 +106,17 @@ private fun HomeScreen(menuViewModel: MenuViewModel) {
     }
 
     Column(
-        verticalArrangement = Arrangement.Top,
+        verticalArrangement = Arrangement.spacedBy(18.dp, alignment = Alignment.Top),
         horizontalAlignment = Alignment.Start,
-        modifier = Modifier.padding(16.dp).fillMaxSize()
+        modifier = Modifier.padding(16.dp)
+            .fillMaxWidth()
+            .verticalScroll(scrollState)
     ) {
         DashboardCardView()
-        MenuSingleGridView(data = menuApiRes.value)
+        MenuSingleGridView(title = "Financial Services", data = menuApiRes.value)
+        MenuSingleGridView(title = "Payments", data = menuApiRes.value)
+        MenuSingleGridView(title = "FonePayments", data = menuApiRes.value)
+        MenuSingleGridView(title = "ECommerces", data = menuApiRes.value)
+        Spacer(modifier = Modifier.height(100.dp))
     }
 }
