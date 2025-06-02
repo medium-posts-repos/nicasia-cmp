@@ -18,6 +18,20 @@ class LoginViewModel: ViewModel() {
         GenericUIState<List<LoginCountryResDto>>(emptyList(), false)
     )
     val countrySheetState = _countrySheetState.asStateFlow()
+
+    private val _isLoading = MutableStateFlow(false)
+    internal val isLoading = _isLoading.asStateFlow()
+
+    fun executeLogin() {
+        _isLoading.value = true
+
+//        viewModelScope.launch {
+//            println("Before delay")
+//            delay(5000)
+//            println("After delay")
+//            _isLoading.value = false
+//        }
+    }
 }
 
 /** Country Sheet Extension */

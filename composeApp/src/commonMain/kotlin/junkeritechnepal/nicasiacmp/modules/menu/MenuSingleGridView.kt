@@ -59,7 +59,6 @@ fun HorizontalGridBox(
                             .background(Color(0xFFFAFAFA), shape = RoundedCornerShape(8.dp)),
                         contentAlignment = Alignment.Center
                     ) {
-                        println(item.icon)
                        Column(
                            modifier = Modifier.padding(vertical = 2.dp),
                            horizontalAlignment = Alignment.CenterHorizontally,

@@ -1,12 +1,9 @@
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,23 +19,20 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.CheckboxColors
 import androidx.compose.material3.CheckboxDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -59,27 +53,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.ModifierInfo
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import junkeritechnepal.nicasiacmp.app.navigation.LocalNavController
 import junkeritechnepal.nicasiacmp.app.navigation.NavigationRoutes
+import junkeritechnepal.nicasiacmp.modules.designSystem.AdaptiveLoader
 import junkeritechnepal.nicasiacmp.modules.designSystem.AppTextStyle
 import junkeritechnepal.nicasiacmp.modules.designSystem.AppTypography
 import junkeritechnepal.nicasiacmp.modules.login.LoginCountryResDto
 import junkeritechnepal.nicasiacmp.modules.login.LoginViewModel
-import junkeritechnepal.nicasiacmp.modules.login.LoginViewModelExt
 import junkeritechnepal.nicasiacmp.modules.login.LoginViewModelExt.dismissCountrySheet
 import junkeritechnepal.nicasiacmp.modules.login.LoginViewModelExt.fetchCountrySheet
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import nicasia_cmp.composeapp.generated.resources.Res
 import nicasia_cmp.composeapp.generated.resources.compose_multiplatform
@@ -91,8 +80,12 @@ import org.jetbrains.compose.resources.painterResource
 fun LoginScreen() {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     val loginViewModel by lazy { LoginViewModel() }
+    val isLoading by loginViewModel.isLoading.collectAsState()
+
+    val navigator = LocalNavController.current
 
     Scaffold(
+        containerColor = Color.Black,
         topBar = {
             LoginNavHeaderView(scrollBehavior)
         }
@@ -117,10 +110,20 @@ fun LoginScreen() {
             }
 
             item {
-                ScalableButtonClick()
+                ScalableButtonClick {
+                    navigator.navigate(NavigationRoutes.DASHBOARD_ROUTE.name)
+                }
                 Spacer(modifier = Modifier.height(24.dp))
                 NeedHelpLoginView()
             }
+        }
+    }
+
+    // Full screen loader
+    if (isLoading) {
+        println("isLoading $isLoading")
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            AdaptiveLoader()
         }
     }
 }
@@ -128,7 +131,7 @@ fun LoginScreen() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun LoginNavHeaderView(scrollBehavior: TopAppBarScrollBehavior) {
-    val navController = LocalNavController.current
+    val navigator = LocalNavController.current
 
     Column {
         TopAppBar(
@@ -149,7 +152,7 @@ private fun LoginNavHeaderView(scrollBehavior: TopAppBarScrollBehavior) {
                 }
             },
             actions = {
-                IconButton(onClick = { navController.navigate(NavigationRoutes.LOGIN_SECONDARY_ROUTE.name) }) {
+                IconButton(onClick = { navigator.navigate(NavigationRoutes.LOGIN_SECONDARY_ROUTE.name) }) {
                     Icon(Icons.Outlined.Settings, contentDescription = "Language")
                 }
 
@@ -251,7 +254,7 @@ private fun InputMobileNumberView(loginViewModel: LoginViewModel) {
 }
 
 @Composable
-fun ScalableButtonClick() {
+fun ScalableButtonClick(onItemClick: () -> Unit) {
     val navigator = LocalNavController.current
     val scale = remember { Animatable(1f) }
     val scope = rememberCoroutineScope()
@@ -262,7 +265,7 @@ fun ScalableButtonClick() {
             scale.animateTo(0.96f, animationSpec = tween(250))
             scale.animateTo(1f, animationSpec = tween(150))
             isAnimating = false
-            navigator.navigate(NavigationRoutes.DASHBOARD_ROUTE.name)
+            onItemClick()
         }
     }
 

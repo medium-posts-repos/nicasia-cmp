@@ -4,12 +4,14 @@ import DashboardContainerScreen
 import LoginScreen
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -30,6 +32,7 @@ fun AppNavigationHost() {
             navController = navController,
             startDestination = NavigationRoutes.LOGIN_ROUTE.name,
             modifier = Modifier
+                .background(Color.Transparent)
                 .fillMaxSize(),
             enterTransition = {
                 slideIntoContainer(

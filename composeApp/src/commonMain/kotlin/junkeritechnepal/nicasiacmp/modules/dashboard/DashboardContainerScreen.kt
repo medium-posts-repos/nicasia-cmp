@@ -1,3 +1,4 @@
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.HorizontalPager
@@ -25,12 +26,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import junkeritechnepal.nicasiacmp.modules.camera.CameraScreen
 import junkeritechnepal.nicasiacmp.modules.cards.DashboardCardView
 import junkeritechnepal.nicasiacmp.modules.menu.MenuSingleGridView
 import junkeritechnepal.nicasiacmp.modules.menu.MenuViewModel
 
 @Composable
 fun DashboardContainerScreen() {
+    val menuViewModel by lazy { MenuViewModel() }
+
     val pagerState = rememberPagerState(
         initialPage = 1, // Start with middle screen
         pageCount = { 3 }
@@ -46,11 +50,16 @@ fun DashboardContainerScreen() {
                 ).asPaddingValues()
             )
     ) { page ->
-        when (page) {
-            0 -> PageScreen("Left Screen", Color(0xFFBBDEFB))
-            1 -> DashboardScreen()
-            2 -> PageScreen("Right Screen", Color(0xFFFFCDD2))
+        val screen: @Composable () -> Unit = remember(page) {
+            when (page) {
+                0 -> { { PageScreen("Left Screen", Color(0xFFBBDEFB)) } }
+                1 -> { { DashboardScreen(menuViewModel) } }
+                2 -> { { CameraScreen() } }
+                else -> { { Text("Unknown page") } }
+            }
         }
+
+        screen() // Call the selected screen composable
     }
 }
 
@@ -66,9 +75,8 @@ private fun PageScreen(label: String, color: Color) {
 }
 
 @Composable
-private fun DashboardScreen() {
+private fun DashboardScreen(menuViewModel: MenuViewModel) {
     var selectedTab by remember { mutableIntStateOf(0) }
-    val menuViewModel by lazy { MenuViewModel() }
     val scrollState = rememberScrollState()
 
     val items = listOf("Home", "Search", "Add", "Profile", "More")
@@ -90,10 +98,14 @@ private fun DashboardScreen() {
             }
         }
     ) { innerPadding ->
-        when(selectedTab) {
-            0 -> { HomeScreen(menuViewModel, scrollState) }
-            else -> { Text("Current tab $selectedTab") }
+
+        val screen: @Composable () -> Unit = remember(selectedTab) {
+            when (selectedTab) {
+                0 -> { { HomeScreen(menuViewModel, scrollState) } }
+                else -> { { Text("Current tab $selectedTab") } }
+            }
         }
+        screen()
     }
 }
 

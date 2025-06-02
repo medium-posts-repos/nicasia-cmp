@@ -19,6 +19,16 @@ class MenuViewModel: BaseViewModel() {
     val menuApiResState = _menuApiResState.asStateFlow()
 
     fun fetchPublicMenus() {
+
+        _menuApiResState.value.apply {
+            if (data?.isNotEmpty() == true ) {
+                _menuApiResState.value = this
+                return
+            }
+        }
+
+        println("Going to fetchPublicMenus...")
+
         viewModelScope.launchSafe {
             val result = networkService.getRequest<MenuResDto>(NetworkConstants.PUBLIC_MENUS)
             _menuApiResState.value = result
