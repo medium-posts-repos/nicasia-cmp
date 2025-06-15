@@ -55,7 +55,7 @@ fun DashboardContainerScreen() {
                 0 -> { { PageScreen("Left Screen", Color(0xFFBBDEFB)) } }
                 1 -> { { DashboardScreen(menuViewModel) } }
                 2 -> { { CameraScreen() } }
-                else -> { { Text("Unknown page") } }
+                else -> { { Text("Unknown pagee") } }
             }
         }
 
