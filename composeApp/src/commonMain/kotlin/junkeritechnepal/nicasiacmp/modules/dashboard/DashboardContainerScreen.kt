@@ -1,4 +1,5 @@
 import androidx.compose.animation.Crossfade
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.HorizontalPager
@@ -7,7 +8,11 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Send
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarDefaults
@@ -24,12 +29,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.Key.Companion.R
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import junkeritechnepal.nicasiacmp.modules.camera.CameraScreen
 import junkeritechnepal.nicasiacmp.modules.cards.DashboardCardView
 import junkeritechnepal.nicasiacmp.modules.menu.MenuSingleGridView
 import junkeritechnepal.nicasiacmp.modules.menu.MenuViewModel
+import nicasia_cmp.composeapp.generated.resources.Res
+import nicasia_cmp.composeapp.generated.resources.nicasisa
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun DashboardContainerScreen() {
@@ -78,34 +87,55 @@ private fun PageScreen(label: String, color: Color) {
 private fun DashboardScreen(menuViewModel: MenuViewModel) {
     var selectedTab by remember { mutableIntStateOf(0) }
     val scrollState = rememberScrollState()
+    val bottomPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+    val finalBottomPadding = bottomPadding + 24.dp
 
-    val items = listOf("Home", "Search", "Add", "Profile", "More")
+    val items = listOf("Home", "Search", "Profile", "More")
 
-    Scaffold(
-        containerColor = Color.Transparent,
-        bottomBar = {
-            NavigationBar(containerColor = Color.White) {
-                items.forEachIndexed { index, label ->
-                    NavigationBarItem(
-                        selected = selectedTab == index,
-                        onClick = { selectedTab = index },
-                        icon = {
-                            Icon(Icons.Default.Settings, contentDescription = label)
-                        },
-                        label = { Text(label) }
-                    )
+    Box(modifier = Modifier.fillMaxSize()) {
+        Scaffold(
+            containerColor = Color.Transparent,
+            bottomBar = {
+                NavigationBar(containerColor = Color.White) {
+                    items.forEachIndexed { index, label ->
+                        NavigationBarItem(
+                            selected = selectedTab == index,
+                            onClick = { selectedTab = index },
+                            icon = {
+                                when(index) {
+                                    0 -> { Icon(Icons.Default.Home, contentDescription = label) }
+                                    1 -> {Icon(Icons.Default.ShoppingCart, contentDescription = label) }
+                                    2 -> {Icon(Icons.Default.Send, contentDescription = label) }
+                                    3 -> {Icon(Icons.Default.Person, contentDescription = label) }
+                                }
+                            },
+                            label = { Text(label) }
+                        )
+                    }
                 }
             }
-        }
-    ) { innerPadding ->
+        ) { innerPadding ->
 
-        val screen: @Composable () -> Unit = remember(selectedTab) {
-            when (selectedTab) {
-                0 -> { { HomeScreen(menuViewModel, scrollState) } }
-                else -> { { Text("Current tab $selectedTab") } }
+            val screen: @Composable () -> Unit = remember(selectedTab) {
+                when (selectedTab) {
+                    0 -> { { HomeScreen(menuViewModel, scrollState) } }
+                    else -> { { Text("Current tab $selectedTab") } }
+                }
             }
+            screen()
         }
-        screen()
+
+        Image(
+            painter = painterResource(Res.drawable.nicasisa),
+            contentDescription = "Floating Image",
+            modifier = Modifier
+                .size(64.dp)
+                .align(Alignment.BottomEnd)
+                .padding(
+                    bottom  = finalBottomPadding,
+                    end = 24.dp
+                )
+        )
     }
 }
 
