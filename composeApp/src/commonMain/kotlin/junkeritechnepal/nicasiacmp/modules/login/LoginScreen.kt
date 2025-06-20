@@ -302,7 +302,7 @@ private fun RememberMeView() {
 fun StartJourneyView() {
     Column(verticalArrangement = Arrangement.spacedBy(16.dp), modifier = Modifier.fillMaxWidth()) {
         Text("Start Your Journey With NIC ASIA MoBank", style = AppTextStyle.boldDark(12.sp))
-        Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+        Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
             listOf(1,2,2,2,3,3,3).forEach { _ ->
                 MenuViews.IconTitleDescCardView()
             }
