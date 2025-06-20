@@ -32,7 +32,7 @@ fun AppNavigationHost() {
             navController = navController,
             startDestination = NavigationRoutes.LOGIN_ROUTE.name,
             modifier = Modifier
-                .background(Color.Transparent)
+                .background(Color.White)
                 .fillMaxSize(),
             enterTransition = {
                 slideIntoContainer(

@@ -10,6 +10,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.unit.TextUnit
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -58,12 +59,11 @@ object AppTextStyle {
             color = Color.White
         )
     }
-
     fun largeDark(fontWeight: FontWeight = FontWeight.Bold): TextStyle {
         return TextStyle(
-            fontSize = 16.sp,
+            fontSize = 14.sp,
             fontWeight = fontWeight,
-            color = Color.DarkGray
+            color = textColorDark
         )
     }
     fun smallLight(fontWeight: FontWeight = FontWeight.Bold): TextStyle {
@@ -80,11 +80,18 @@ object AppTextStyle {
             color = Color.White
         )
     }
-    fun boldDark(fontSize: TextUnit = 16.sp): TextStyle {
+    fun boldDark(fontSize: TextUnit = 14.sp): TextStyle {
         return TextStyle(
             fontSize = fontSize,
             fontWeight = FontWeight.Bold,
-            color = Color.DarkGray
+            color = textColorDark
+        )
+    }
+    fun textNormalDim(fontSize: TextUnit = 12.sp, weight: FontWeight = FontWeight.Normal): TextStyle {
+        return TextStyle(
+            fontSize = fontSize,
+            fontWeight = weight,
+            color = textColorMedium
         )
     }
 }
