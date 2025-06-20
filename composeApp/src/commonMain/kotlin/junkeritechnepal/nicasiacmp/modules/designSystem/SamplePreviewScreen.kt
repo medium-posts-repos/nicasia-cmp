@@ -10,6 +10,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.TextUnit
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 val textColorDark = Color(0xFF000000)
@@ -60,7 +61,7 @@ object AppTextStyle {
 
     fun largeDark(fontWeight: FontWeight = FontWeight.Bold): TextStyle {
         return TextStyle(
-            fontSize = 18.sp,
+            fontSize = 16.sp,
             fontWeight = fontWeight,
             color = Color.DarkGray
         )
@@ -70,6 +71,20 @@ object AppTextStyle {
             fontSize = 12.sp,
             fontWeight = fontWeight,
             color = Color.White
+        )
+    }
+    fun boldLight(fontSize: TextUnit = 16.sp): TextStyle {
+        return TextStyle(
+            fontSize = fontSize,
+            fontWeight = FontWeight.Bold,
+            color = Color.White
+        )
+    }
+    fun boldDark(fontSize: TextUnit = 16.sp): TextStyle {
+        return TextStyle(
+            fontSize = fontSize,
+            fontWeight = FontWeight.Bold,
+            color = Color.DarkGray
         )
     }
 }

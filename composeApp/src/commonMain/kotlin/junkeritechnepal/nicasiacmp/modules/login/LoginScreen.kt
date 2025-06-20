@@ -21,6 +21,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Settings
@@ -53,6 +54,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -74,6 +76,7 @@ import nicasia_cmp.composeapp.generated.resources.Res
 import nicasia_cmp.composeapp.generated.resources.compose_multiplatform
 import nicasia_cmp.composeapp.generated.resources.nicasisa
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.vectorResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -114,7 +117,12 @@ fun LoginScreen() {
                     navigator.navigate(NavigationRoutes.DASHBOARD_ROUTE.name)
                 }
                 Spacer(modifier = Modifier.height(24.dp))
-                NeedHelpLoginView()
+                LoginTapView.TapTopLoginView()
+                Spacer(modifier = Modifier.height(24.dp))
+            }
+
+            item {
+                StartJourneyView()
             }
         }
     }
@@ -255,7 +263,6 @@ private fun InputMobileNumberView(loginViewModel: LoginViewModel) {
 
 @Composable
 fun ScalableButtonClick(onItemClick: () -> Unit) {
-    val navigator = LocalNavController.current
     val scale = remember { Animatable(1f) }
     val scope = rememberCoroutineScope()
     var isAnimating = false
@@ -297,35 +304,41 @@ private fun RememberMeView() {
     }
 }
 
-
 @Composable
-private fun NeedHelpLoginView() {
-   Column(horizontalAlignment = Alignment.CenterHorizontally) {
-       Button(
-           contentPadding = PaddingValues(vertical = 2.dp),
-           colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
-           onClick = { /* */ },
-           modifier = Modifier.width(IntrinsicSize.Max).padding(vertical = 2.dp)
-       ) { // RowScope
-           Text(text = "Unable to login?", style = AppTextStyle.largeDark())
-           Spacer(modifier = Modifier.width(16.dp))
-           Icon(
-               painter = painterResource(
-                   Res.drawable.compose_multiplatform
-               ),
-               contentDescription = null,
-               Modifier.height(20.dp),
-               tint = Color.Red
-           )
-       }
+fun StartJourneyView() {
+    Column {
+        Text("Start Your Journey With NIC ASIA MoBank", style = AppTextStyle.largeDark())
+    }
+}
 
-       Button(
-           contentPadding = PaddingValues(vertical = 2.dp),
-           colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
-           onClick = { /* */ },
-           modifier = Modifier.width(IntrinsicSize.Max)
-       ) { // RowScope
-           Text(text = "Need Help?", style = AppTextStyle.largeDark())
-       }
-   }
+object LoginTapView {
+    @Composable
+    fun TapTopLoginView() {
+         Column(verticalArrangement = Arrangement.spacedBy(12.dp), horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                Image(
+                    painter = rememberVectorPainter(Icons.Outlined.Lock),
+                    contentDescription = "App Logo",
+                    modifier = Modifier.height(18.dp),
+                    contentScale = ContentScale.Fit
+                )
+                Text("Tap to Login with Face Id", style = AppTextStyle.boldDark())
+            }
+
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                Text(text = "Unable to login?", style = AppTextStyle.largeDark())
+                Image(
+                    painter = rememberVectorPainter(Icons.Outlined.LocationOn),
+                    contentDescription = "App Logo",
+                    modifier = Modifier.height(18.dp),
+                    contentScale = ContentScale.Fit
+                )
+            }
+
+            Spacer(modifier = Modifier.height(10.dp))
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                Text(text = "Need Help?", style = AppTextStyle.largeDark())
+            }
+        }
+    }
 }
