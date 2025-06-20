@@ -18,6 +18,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import junkeritechnepal.nicasiacmp.modules.designSystem.DesignSystemScreen
 import junkeritechnepal.nicasiacmp.modules.login.LoginSecondaryScreen
+import junkeritechnepal.nicasiacmp.modules.sms.SmsScreen
 
 val LocalNavController = compositionLocalOf<NavHostController> {
     error("NavController not provided")
@@ -73,6 +74,10 @@ fun AppNavigationHost() {
 
             composable(NavigationRoutes.DASHBOARD_ROUTE.name) {
                 DashboardContainerScreen()
+            }
+
+            composable(NavigationRoutes.SMS.name) {
+                SmsScreen()
             }
         }
     }

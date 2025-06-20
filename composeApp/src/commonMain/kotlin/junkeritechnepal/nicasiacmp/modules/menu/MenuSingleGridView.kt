@@ -56,7 +56,7 @@ fun HorizontalGridBox(
                         modifier = Modifier
                             .height(80.dp)
                             .width(80.dp)
-                            .background(Color(0xFFFAFAFA), shape = RoundedCornerShape(8.dp)),
+                            .background(Color.White, shape = RoundedCornerShape(8.dp)),
                         contentAlignment = Alignment.Center
                     ) {
                        Column(

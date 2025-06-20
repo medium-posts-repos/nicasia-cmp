@@ -13,5 +13,6 @@ enum class NavigationRoutes {
     DASHBOARD_ROUTE,
     RIDE_MAP_ROUTE,
     PROFILE_ROUTE,
-    DESIGN_SYSTEM
+    DESIGN_SYSTEM,
+    SMS
 }

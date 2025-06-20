@@ -83,7 +83,7 @@ fun LoginScreen() {
     val navigator = LocalNavController.current
 
     Scaffold(
-        containerColor = Color(0xf0f0f0),
+        containerColor = Color(0xfffafafa),
         topBar = {
             LoginNavHeaderView(scrollBehavior)
         }
@@ -162,7 +162,7 @@ private fun LoginNavHeaderView(scrollBehavior: TopAppBarScrollBehavior) {
                     Icon(Icons.Outlined.Search, contentDescription = "Sms")
                 }
             },
-            colors = TopAppBarDefaults.largeTopAppBarColors(containerColor = Color.White),
+            colors = TopAppBarDefaults.largeTopAppBarColors(containerColor = Color(0xfffafafa)),
             scrollBehavior = scrollBehavior
         )
 

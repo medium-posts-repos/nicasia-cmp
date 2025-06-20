@@ -94,9 +94,9 @@ private fun DashboardScreen(menuViewModel: MenuViewModel) {
 
     Box(modifier = Modifier.fillMaxSize()) {
         Scaffold(
-            containerColor = Color.Transparent,
+            containerColor = Color(0xfffafafa),
             bottomBar = {
-                NavigationBar(containerColor = Color.White) {
+                NavigationBar(containerColor = Color(0xfffafafa)) {
                     items.forEachIndexed { index, label ->
                         NavigationBarItem(
                             selected = selectedTab == index,

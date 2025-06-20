@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.MailOutline
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -108,8 +109,10 @@ private fun LoginNavHeaderView(scrollBehavior: TopAppBarScrollBehavior) {
                     Icon(Icons.Outlined.Settings, contentDescription = "Language")
                 }
 
-                IconButton(onClick = { }) {
-                    Icon(Icons.Outlined.Search, contentDescription = "Sms")
+                IconButton(onClick = {
+                    navController.navigate(NavigationRoutes.SMS.name)
+                }) {
+                    Icon(Icons.Outlined.MailOutline, contentDescription = "Sms")
                 }
             },
             colors = TopAppBarDefaults.largeTopAppBarColors(containerColor = Color.White),
