@@ -29,7 +29,7 @@ object MenuViews {
     @Composable
     fun IconTitleDescCardView() {
         Card(colors = CardDefaults.cardColors(containerColor = Color.White)) {
-            Row(horizontalArrangement = Arrangement.spacedBy(12.dp, alignment = Alignment.Start), modifier = Modifier.padding(10.dp).fillMaxWidth()) {
+            Row(horizontalArrangement = Arrangement.spacedBy(12.dp, alignment = Alignment.Start), modifier = Modifier.padding(12.dp).fillMaxWidth()) {
                 Image(
                     painter = painterResource(Res.drawable.nicasisa),
                     contentDescription = "",
