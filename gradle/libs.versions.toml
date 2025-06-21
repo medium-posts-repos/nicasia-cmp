@@ -18,6 +18,7 @@ kotlin = "2.1.21"
 kotlinxSerializationJson = "1.7.3"
 ktorClientCio = "3.0.3"
 ktorClientDarwin = "3.0.3"
+lifecycleViewmodelCompose = "2.9.1"
 materialIconsCore = "1.7.8"
 materialIconsCoreVersion = "1.7.3"
 navigationCompose = "2.9.0-beta01"
@@ -43,6 +44,7 @@ ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktorCli
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktorClientDarwin" }
 ktor-client-json = { module = "io.ktor:ktor-client-json", version.ref = "ktorClientCio" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktorClientCio" }
+lifecycle-viewmodel-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleViewmodelCompose" }
 material-icons-core = { module = "org.jetbrains.compose.material:material-icons-core", version.ref = "materialIconsCoreVersion" }
 navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 

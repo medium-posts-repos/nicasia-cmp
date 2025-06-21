@@ -40,9 +40,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModelStoreOwner
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.viewmodel.viewModelFactory
 import junkeritechnepal.nicasiacmp.app.navigation.LocalNavController
 import junkeritechnepal.nicasiacmp.app.navigation.NavigationRoutes
 import junkeritechnepal.nicasiacmp.app.router.Router
+import junkeritechnepal.nicasiacmp.app.viewmodels.ShareViewModel
 import junkeritechnepal.nicasiacmp.modules.designSystem.AppTextStyle
 import junkeritechnepal.nicasiacmp.modules.designSystem.backgroundColor
 import junkeritechnepal.nicasiacmp.modules.designSystem.textColorPrimary
@@ -58,7 +62,7 @@ import org.jetbrains.compose.resources.painterResource
 @Composable
 fun SmsScreen(router: Router) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
-
+    val shareViewModel: ShareViewModel = viewModel()
     val items = listOf(
         "General Inquiry" to Res.drawable.nicasisa,
         "Send Money" to Res.drawable.card_design,
@@ -83,7 +87,11 @@ fun SmsScreen(router: Router) {
             items(items) { (title, iconRes) ->
                 Card(
                     modifier = Modifier
-                        .clickable { router.route(MenuDataSource.paymentSubMenus.first()) }
+                        .clickable {
+                            val intent = MenuDataSource.paymentSubMenus.first()
+                            shareViewModel.setMenuItem(intent)
+                            router.route(intent)
+                        }
                         .fillMaxWidth()
                         .height(100.dp),
                     colors = CardDefaults.cardColors(containerColor = Color.White)

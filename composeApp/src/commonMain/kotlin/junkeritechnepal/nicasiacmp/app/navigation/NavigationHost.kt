@@ -9,9 +9,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -19,6 +22,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import junkeritechnepal.nicasiacmp.app.extensions.getExtras
 import junkeritechnepal.nicasiacmp.app.router.Router
+import junkeritechnepal.nicasiacmp.app.viewmodels.ShareViewModel
 import junkeritechnepal.nicasiacmp.core.extensions.toExtras
 import junkeritechnepal.nicasiacmp.modules.designSystem.DesignSystemScreen
 import junkeritechnepal.nicasiacmp.modules.login.LoginSecondaryScreen
@@ -77,12 +81,12 @@ fun AppNavigationHost() {
 }
 
 fun NavGraphBuilder.setupMenuRoutes(router: Router) {
-    composable(NavigationRoutes.SUBMENUS_ROUTE.name.toExtras(),
-        arguments = defaultExtrasArgument
-    ) {
-        val extras = it.savedStateHandle.getExtras<MenuItemDto>()
-        println("extras: ${it.savedStateHandle.getExtras<MenuItemDto>()}")
-        MenuViews.MenuCardListScreen(router = router, extras)
+
+    composable(NavigationRoutes.SUBMENUS_ROUTE.name) {
+        val sharedViewModel: ShareViewModel = viewModel { ShareViewModel() }
+        val extraArgs by sharedViewModel.selectedMenuItem.collectAsState()
+        println("shareViewModel $extraArgs")
+        MenuViews.MenuCardListScreen(router = router, extraArgs)
     }
 }
 

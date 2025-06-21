@@ -15,6 +15,7 @@ import androidx.compose.material.icons.automirrored.sharp.KeyboardArrowRight
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -55,27 +56,33 @@ object MenuViews {
 
     @Composable
     fun MenuCardListScreen(router: Router, extras: MenuItemDto?) {
-        val dataSource = extras?.subMenus ?: listOf()
-        LazyColumn(modifier = Modifier) {
-            items(dataSource.count()) { item ->
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 4.dp, horizontal = 8.dp),
-                    elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
-                ) {
-                    Column(
-                        modifier = Modifier.padding(16.dp).clickable {  }
+        Scaffold { padding ->
+            val dataSource = extras?.subMenus ?: listOf()
+            if(dataSource.isEmpty()) {
+                Text("No data found")
+            }
+
+            LazyColumn(modifier = Modifier.padding(padding)) {
+                items(dataSource.count()) { item ->
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 4.dp, horizontal = 8.dp),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
                     ) {
-                        Text(
-                            text = dataSource[item].name ?: "",
-                            style = MaterialTheme.typography.titleMedium
-                        )
-                        Text(
-                            text = dataSource[item].desc ?: "",
-                            style = MaterialTheme.typography.bodyMedium,
-                            modifier = Modifier.padding(top = 4.dp)
-                        )
+                        Column(
+                            modifier = Modifier.padding(16.dp).clickable {  }
+                        ) {
+                            Text(
+                                text = dataSource[item].name ?: "",
+                                style = MaterialTheme.typography.titleMedium
+                            )
+                            Text(
+                                text = dataSource[item].desc ?: "",
+                                style = MaterialTheme.typography.bodyMedium,
+                                modifier = Modifier.padding(top = 4.dp)
+                            )
+                        }
                     }
                 }
             }

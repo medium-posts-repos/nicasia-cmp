@@ -18,7 +18,7 @@ data class MenuItemDto(
     val code: String? = null,
     val type: String? = null,
     val subMenus: List<MenuItemDto>? = null
-): Navigator.Extras
+)
 
 object MenuDataSource {
     val paymentSubMenus: List<MenuItemDto>

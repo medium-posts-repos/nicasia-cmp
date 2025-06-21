@@ -1,6 +1,6 @@
 package junkeritechnepal.nicasiacmp.core.extensions
 
-fun String.withRoute(extra: String): String {
+fun String.withExtras(extra: String): String {
     return "$this/${extra}"
 }
 
