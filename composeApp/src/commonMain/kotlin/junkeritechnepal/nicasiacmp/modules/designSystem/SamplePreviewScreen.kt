@@ -16,6 +16,8 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 val textColorDark = Color(0xFF000000)
 val textColorMedium = Color(0xFF666666)
+val textColorPrimary = Color.Red
+val backgroundColor = Color(0xfffafafa)
 
 val AppTypography = Typography(
     bodyLarge = TextStyle(
@@ -92,6 +94,13 @@ object AppTextStyle {
             fontSize = fontSize,
             fontWeight = weight,
             color = textColorMedium
+        )
+    }
+    fun smallNormalPrimary(fontSize: TextUnit = 12.sp, weight: FontWeight = FontWeight.Normal): TextStyle {
+        return TextStyle(
+            fontSize = fontSize,
+            fontWeight = weight,
+            color = textColorPrimary
         )
     }
 }

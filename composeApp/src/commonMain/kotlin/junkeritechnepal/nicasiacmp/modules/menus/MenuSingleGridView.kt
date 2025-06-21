@@ -1,4 +1,4 @@
-package junkeritechnepal.nicasiacmp.modules.menu
+package junkeritechnepal.nicasiacmp.modules.menus
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

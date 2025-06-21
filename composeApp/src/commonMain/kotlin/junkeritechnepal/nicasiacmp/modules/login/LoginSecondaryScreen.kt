@@ -2,11 +2,8 @@ package junkeritechnepal.nicasiacmp.modules.login
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -15,14 +12,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.MailOutline
-import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
@@ -33,15 +28,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import junkeritechnepal.nicasiacmp.app.navigation.LocalNavController
 import junkeritechnepal.nicasiacmp.app.navigation.NavigationRoutes
-import junkeritechnepal.nicasiacmp.modules.designSystem.AppTypography
-import junkeritechnepal.nicasiacmp.modules.menu.MenuSingleGridView
-import junkeritechnepal.nicasiacmp.modules.menu.MenuViewModel
+import junkeritechnepal.nicasiacmp.modules.menus.MenuSingleGridView
+import junkeritechnepal.nicasiacmp.modules.menus.MenuViewModel
 import nicasia_cmp.composeapp.generated.resources.Res
-import nicasia_cmp.composeapp.generated.resources.nicasisa
+import nicasia_cmp.composeapp.generated.resources.bank_logo
 import org.jetbrains.compose.resources.painterResource
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -75,7 +68,6 @@ fun LoginSecondaryScreen() {
     }
 }
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun LoginNavHeaderView(scrollBehavior: TopAppBarScrollBehavior) {
@@ -87,7 +79,7 @@ private fun LoginNavHeaderView(scrollBehavior: TopAppBarScrollBehavior) {
                 // Center image using Box
                 Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                     Image(
-                        painter = painterResource(Res.drawable.nicasisa),
+                        painter = painterResource(Res.drawable.bank_logo),
                         contentDescription = "App Logo",
                         modifier = Modifier.height(80.dp),
                         contentScale = ContentScale.Fit

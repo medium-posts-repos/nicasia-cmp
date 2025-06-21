@@ -1,6 +1,10 @@
 package junkeritechnepal.nicasiacmp.app.navigation
 
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
 import kotlinx.serialization.Serializable
+
+val defaultExtrasArgument = listOf(navArgument("extras") { type = NavType.StringType })
 
 @Serializable
 enum class NavigationRoutes {
@@ -14,5 +18,7 @@ enum class NavigationRoutes {
     RIDE_MAP_ROUTE,
     PROFILE_ROUTE,
     DESIGN_SYSTEM,
-    SMS
+    SMS,
+    SUBMENUS_ROUTE,
+    MENU_ROUTE
 }

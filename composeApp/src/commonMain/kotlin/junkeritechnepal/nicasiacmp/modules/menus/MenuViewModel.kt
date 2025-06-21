@@ -1,15 +1,11 @@
-package junkeritechnepal.nicasiacmp.modules.menu
+package junkeritechnepal.nicasiacmp.modules.menus
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import junkeritechnepal.nicasiacmp.data.GenericUIState
 import junkeritechnepal.nicasiacmp.data.base.BaseViewModel
 import junkeritechnepal.nicasiacmp.infrastructure.network.NetworkConstants
 import junkeritechnepal.nicasiacmp.infrastructure.network.NetworkService
-import junkeritechnepal.nicasiacmp.modules.login.LoginCountryResDto
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 
 
 class MenuViewModel: BaseViewModel() {

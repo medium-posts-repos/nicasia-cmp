@@ -63,13 +63,14 @@ import junkeritechnepal.nicasiacmp.app.navigation.NavigationRoutes
 import junkeritechnepal.nicasiacmp.modules.designSystem.AdaptiveLoader
 import junkeritechnepal.nicasiacmp.modules.designSystem.AppTextStyle
 import junkeritechnepal.nicasiacmp.modules.designSystem.AppTypography
-import junkeritechnepal.nicasiacmp.modules.designSystem.menus.MenuViews
+import junkeritechnepal.nicasiacmp.modules.menus.MenuViews
 import junkeritechnepal.nicasiacmp.modules.login.LoginCountryResDto
 import junkeritechnepal.nicasiacmp.modules.login.LoginViewModel
 import junkeritechnepal.nicasiacmp.modules.login.LoginViewModelExt.dismissCountrySheet
 import junkeritechnepal.nicasiacmp.modules.login.LoginViewModelExt.fetchCountrySheet
 import kotlinx.coroutines.launch
 import nicasia_cmp.composeapp.generated.resources.Res
+import nicasia_cmp.composeapp.generated.resources.bank_logo
 import nicasia_cmp.composeapp.generated.resources.nicasisa
 import org.jetbrains.compose.resources.painterResource
 
@@ -141,7 +142,7 @@ private fun LoginNavHeaderView(scrollBehavior: TopAppBarScrollBehavior) {
                 // Center image using Box
                 Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                     Image(
-                        painter = painterResource(Res.drawable.nicasisa),
+                        painter = painterResource(Res.drawable.bank_logo),
                         contentDescription = "App Logo",
                         modifier = Modifier.height(80.dp),
                         contentScale = ContentScale.Fit

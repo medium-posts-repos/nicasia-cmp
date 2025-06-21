@@ -1,4 +1,3 @@
-import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.*
@@ -11,11 +10,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Send
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarDefaults
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -29,13 +26,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.key.Key.Companion.R
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import junkeritechnepal.nicasiacmp.modules.camera.CameraScreen
 import junkeritechnepal.nicasiacmp.modules.cards.DashboardCardView
-import junkeritechnepal.nicasiacmp.modules.menu.MenuSingleGridView
-import junkeritechnepal.nicasiacmp.modules.menu.MenuViewModel
+import junkeritechnepal.nicasiacmp.modules.menus.MenuSingleGridView
+import junkeritechnepal.nicasiacmp.modules.menus.MenuViewModel
 import nicasia_cmp.composeapp.generated.resources.Res
 import nicasia_cmp.composeapp.generated.resources.nicasisa
 import org.jetbrains.compose.resources.painterResource
