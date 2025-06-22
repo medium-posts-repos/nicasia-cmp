@@ -92,6 +92,9 @@ fun NavGraphBuilder.setupNonProtectedRoutes(router: Router) {
             NavigationRoutes.LOGIN_SECONDARY_ROUTE.name -> {
                 LoginSecondaryScreen()
             }
+            NavigationRoutes.DASHBOARD_ROUTE.name -> {
+                DashboardContainerScreen()
+            }
             NavigationRoutes.DESIGN_SYSTEM.name -> {
                 DesignSystemScreen()
             }
