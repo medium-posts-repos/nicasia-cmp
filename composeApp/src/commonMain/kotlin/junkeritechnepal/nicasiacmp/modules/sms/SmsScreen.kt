@@ -6,9 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -19,13 +16,10 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.MailOutline
 import androidx.compose.material.icons.outlined.Notifications
-import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -39,17 +33,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModelStoreOwner
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.lifecycle.viewmodel.viewModelFactory
 import junkeritechnepal.nicasiacmp.app.navigation.LocalNavController
 import junkeritechnepal.nicasiacmp.app.navigation.NavigationRoutes
+import junkeritechnepal.nicasiacmp.app.navigation.toRoute
 import junkeritechnepal.nicasiacmp.app.router.Router
-import junkeritechnepal.nicasiacmp.app.viewmodels.ShareViewModel
 import junkeritechnepal.nicasiacmp.modules.designSystem.AppTextStyle
 import junkeritechnepal.nicasiacmp.modules.designSystem.backgroundColor
-import junkeritechnepal.nicasiacmp.modules.designSystem.textColorPrimary
 import junkeritechnepal.nicasiacmp.modules.menus.MenuDataSource
 import nicasia_cmp.composeapp.generated.resources.Res
 import nicasia_cmp.composeapp.generated.resources.bank_logo
@@ -57,17 +46,17 @@ import nicasia_cmp.composeapp.generated.resources.card_design
 import nicasia_cmp.composeapp.generated.resources.compose_multiplatform
 import nicasia_cmp.composeapp.generated.resources.nicasisa
 import org.jetbrains.compose.resources.painterResource
+import toJsonString
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SmsScreen(router: Router) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
-    val shareViewModel: ShareViewModel = viewModel()
     val items = listOf(
-        "General Inquiry" to Res.drawable.nicasisa,
-        "Send Money" to Res.drawable.card_design,
-        "Payments" to Res.drawable.compose_multiplatform,
-        "Settings" to Res.drawable.nicasisa
+        Triple("General Inquiry", Res.drawable.nicasisa, MenuDataSource.paymentSubMenus),
+        Triple("Send Money", Res.drawable.card_design, MenuDataSource.paymentSubMenus),
+        Triple("Payments", Res.drawable.compose_multiplatform, MenuDataSource.paymentSubMenus),
+        Triple("Settings", Res.drawable.nicasisa, MenuDataSource.paymentSubMenus)
     )
 
     Scaffold(
@@ -84,13 +73,13 @@ fun SmsScreen(router: Router) {
             verticalArrangement = Arrangement.spacedBy(8.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            items(items) { (title, iconRes) ->
+            items(items) { (title, iconRes, items) ->
                 Card(
                     modifier = Modifier
                         .clickable {
                             val intent = MenuDataSource.paymentSubMenus.first()
-                            shareViewModel.setMenuItem(intent)
-                            router.route(intent)
+                            intent.subMenus = items
+                            router.route(NavigationRoutes.SUBMENUS_ROUTE.toRoute(extras = intent.toJsonString()))
                         }
                         .fillMaxWidth()
                         .height(100.dp),
@@ -139,7 +128,7 @@ private fun LoginNavHeaderView(scrollBehavior: TopAppBarScrollBehavior) {
             navigationIcon = {
                 IconButton(onClick = {
                     navController.popBackStack(
-                        NavigationRoutes.LOGIN_ROUTE.name,
+                        NavigationRoutes.LOGIN_ROUTE.toRoute(),
                         inclusive = false,
                         saveState = false
                     )
@@ -149,7 +138,7 @@ private fun LoginNavHeaderView(scrollBehavior: TopAppBarScrollBehavior) {
             },
             actions = {
                 IconButton(onClick = {
-                    navController.navigate(NavigationRoutes.DESIGN_SYSTEM.name)
+                    navController.navigate(NavigationRoutes.DESIGN_SYSTEM.toRoute())
                 }) {
                     Icon(Icons.Outlined.Notifications, contentDescription = "Language")
                 }

@@ -24,11 +24,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import junkeritechnepal.nicasiacmp.app.navigation.PrivateRouteIntent
 import junkeritechnepal.nicasiacmp.app.router.Router
 import junkeritechnepal.nicasiacmp.modules.designSystem.AppTextStyle
 import nicasia_cmp.composeapp.generated.resources.Res
 import nicasia_cmp.composeapp.generated.resources.nicasisa
 import org.jetbrains.compose.resources.painterResource
+import toObject
 
 object MenuViews {
     @Composable
@@ -55,11 +57,12 @@ object MenuViews {
     }
 
     @Composable
-    fun MenuCardListScreen(router: Router, extras: MenuItemDto?) {
+    fun MenuCardListScreen(router: Router, intent: PrivateRouteIntent?) {
         Scaffold { padding ->
-            val dataSource = extras?.subMenus ?: listOf()
+            val dataSource = intent?.extras?.toObject<MenuItemDto>()?.subMenus ?: listOf()
+
             if(dataSource.isEmpty()) {
-                Text("No data found")
+                return@Scaffold Text("No data found")
             }
 
             LazyColumn(modifier = Modifier.padding(padding)) {

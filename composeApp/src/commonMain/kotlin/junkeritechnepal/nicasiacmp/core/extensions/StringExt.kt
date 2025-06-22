@@ -1,9 +1,9 @@
 package junkeritechnepal.nicasiacmp.core.extensions
 
-fun String.withExtras(extra: String): String {
+fun String.sendExtras(extra: String): String {
     return "$this/${extra}"
 }
 
-fun String.toExtras(): String {
+fun String.receiveExtras(): String {
     return "$this/{extras}"
 }

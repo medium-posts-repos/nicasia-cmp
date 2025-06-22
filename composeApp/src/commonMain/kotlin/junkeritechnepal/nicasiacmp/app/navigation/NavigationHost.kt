@@ -20,15 +20,20 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
+import junkeritechnepal.nicasiacmp.app.di.koinViewModel
 import junkeritechnepal.nicasiacmp.app.extensions.getExtras
 import junkeritechnepal.nicasiacmp.app.router.Router
 import junkeritechnepal.nicasiacmp.app.viewmodels.ShareViewModel
-import junkeritechnepal.nicasiacmp.core.extensions.toExtras
+import junkeritechnepal.nicasiacmp.core.extensions.receiveExtras
 import junkeritechnepal.nicasiacmp.modules.designSystem.DesignSystemScreen
 import junkeritechnepal.nicasiacmp.modules.login.LoginSecondaryScreen
 import junkeritechnepal.nicasiacmp.modules.menus.MenuItemDto
 import junkeritechnepal.nicasiacmp.modules.menus.MenuViews
 import junkeritechnepal.nicasiacmp.modules.sms.SmsScreen
+import kotlinx.serialization.Serializable
+import toJsonString
+import toObject
 
 val LocalNavController = compositionLocalOf<NavHostController> {
     error("NavController not provided")
@@ -42,7 +47,7 @@ fun AppNavigationHost() {
     CompositionLocalProvider(LocalNavController provides navController) {
         NavHost(
             navController = navController,
-            startDestination = NavigationRoutes.LOGIN_ROUTE.name,
+            startDestination = PrivateRouteIntent(code = NavigationRoutes.LOGIN_ROUTE.name),
             modifier = Modifier
                 .background(Color.White)
                 .fillMaxSize(),
@@ -71,37 +76,39 @@ fun AppNavigationHost() {
                 )
             }
         ) {
-            composable(NavigationRoutes.DESIGN_SYSTEM.name) { DesignSystemScreen() }
-            composable(NavigationRoutes.SMS.name) { SmsScreen(router) }
-            setupProtectedRoutes()
-            setupNonProtectedRoutes()
-            setupMenuRoutes(router)
+            setupProtectedRoutes(router)
+            setupNonProtectedRoutes(router)
         }
     }
 }
 
-fun NavGraphBuilder.setupMenuRoutes(router: Router) {
-
-    composable(NavigationRoutes.SUBMENUS_ROUTE.name) {
-        val sharedViewModel: ShareViewModel = viewModel { ShareViewModel() }
-        val extraArgs by sharedViewModel.selectedMenuItem.collectAsState()
-        println("shareViewModel $extraArgs")
-        MenuViews.MenuCardListScreen(router = router, extraArgs)
+fun NavGraphBuilder.setupNonProtectedRoutes(router: Router) {
+    composable<PrivateRouteIntent> {
+        val intent = it.toRoute<PrivateRouteIntent>()
+        when(intent.code) {
+            NavigationRoutes.LOGIN_ROUTE.name -> {
+                LoginScreen()
+            }
+            NavigationRoutes.LOGIN_SECONDARY_ROUTE.name -> {
+                LoginSecondaryScreen()
+            }
+            NavigationRoutes.DESIGN_SYSTEM.name -> {
+                DesignSystemScreen()
+            }
+            NavigationRoutes.SMS.name -> {
+                SmsScreen(router)
+            }
+            NavigationRoutes.SUBMENUS_ROUTE.name -> {
+                MenuViews.MenuCardListScreen(router, intent)
+            }
+            else -> {
+                Text("No routes configured")
+            }
+        }
     }
 }
 
-fun NavGraphBuilder.setupNonProtectedRoutes() {
-
-    composable(NavigationRoutes.LOGIN_ROUTE.name) {
-        LoginScreen()
-    }
-
-    composable(NavigationRoutes.LOGIN_SECONDARY_ROUTE.name) {
-        LoginSecondaryScreen()
-    }
-}
-
-fun NavGraphBuilder.setupProtectedRoutes() {
+fun NavGraphBuilder.setupProtectedRoutes(router: Router) {
     composable(NavigationRoutes.DASHBOARD_ROUTE.name) {
         DashboardContainerScreen()
     }

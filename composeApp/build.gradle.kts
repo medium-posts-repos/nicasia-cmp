@@ -35,6 +35,7 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.client.cio)
+            implementation(libs.koin.androidx.compose)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -55,6 +56,9 @@ kotlin {
             implementation(libs.navigation.compose)
             implementation(libs.kamel.image.default)
             implementation(libs.lifecycle.viewmodel.compose)
+
+            api(libs.koin.core) // or newer
+            implementation(libs.koin.compose) // or newer
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)

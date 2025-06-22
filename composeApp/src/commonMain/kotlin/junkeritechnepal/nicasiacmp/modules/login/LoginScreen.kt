@@ -60,6 +60,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import junkeritechnepal.nicasiacmp.app.navigation.LocalNavController
 import junkeritechnepal.nicasiacmp.app.navigation.NavigationRoutes
+import junkeritechnepal.nicasiacmp.app.navigation.toRoute
 import junkeritechnepal.nicasiacmp.modules.designSystem.AdaptiveLoader
 import junkeritechnepal.nicasiacmp.modules.designSystem.AppTextStyle
 import junkeritechnepal.nicasiacmp.modules.designSystem.AppTypography
@@ -109,7 +110,7 @@ fun LoginScreen() {
 
             item {
                 ScalableButtonClick {
-                    navigator.navigate(NavigationRoutes.DASHBOARD_ROUTE.name)
+                    navigator.navigate(NavigationRoutes.DASHBOARD_ROUTE.toRoute())
                 }
                 Spacer(modifier = Modifier.height(24.dp))
                 LoginTapView.TapTopLoginView()
@@ -155,7 +156,7 @@ private fun LoginNavHeaderView(scrollBehavior: TopAppBarScrollBehavior) {
                 }
             },
             actions = {
-                IconButton(onClick = { navigator.navigate(NavigationRoutes.LOGIN_SECONDARY_ROUTE.name) }) {
+                IconButton(onClick = { navigator.navigate(NavigationRoutes.LOGIN_SECONDARY_ROUTE.toRoute()) }) {
                     Icon(Icons.Outlined.Settings, contentDescription = "Language")
                 }
 

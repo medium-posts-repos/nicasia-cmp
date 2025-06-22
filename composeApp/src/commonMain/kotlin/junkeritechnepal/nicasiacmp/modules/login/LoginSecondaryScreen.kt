@@ -31,6 +31,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import junkeritechnepal.nicasiacmp.app.navigation.LocalNavController
 import junkeritechnepal.nicasiacmp.app.navigation.NavigationRoutes
+import junkeritechnepal.nicasiacmp.app.navigation.toRoute
 import junkeritechnepal.nicasiacmp.modules.menus.MenuSingleGridView
 import junkeritechnepal.nicasiacmp.modules.menus.MenuViewModel
 import nicasia_cmp.composeapp.generated.resources.Res
@@ -87,7 +88,7 @@ private fun LoginNavHeaderView(scrollBehavior: TopAppBarScrollBehavior) {
                 }
             },
             navigationIcon = {
-                IconButton(onClick = { navController.popBackStack(NavigationRoutes.LOGIN_ROUTE.name,
+                IconButton(onClick = { navController.popBackStack(NavigationRoutes.LOGIN_ROUTE.toRoute(),
                     inclusive = false,
                     saveState = false
                 )  }) {
@@ -96,13 +97,13 @@ private fun LoginNavHeaderView(scrollBehavior: TopAppBarScrollBehavior) {
             },
             actions = {
                 IconButton(onClick = {
-                    navController.navigate(NavigationRoutes.DESIGN_SYSTEM.name)
+                    navController.navigate(NavigationRoutes.DESIGN_SYSTEM.toRoute())
                 }) {
                     Icon(Icons.Outlined.Settings, contentDescription = "Language")
                 }
 
                 IconButton(onClick = {
-                    navController.navigate(NavigationRoutes.SMS.name)
+                    navController.navigate(NavigationRoutes.SMS.toRoute())
                 }) {
                     Icon(Icons.Outlined.MailOutline, contentDescription = "Sms")
                 }

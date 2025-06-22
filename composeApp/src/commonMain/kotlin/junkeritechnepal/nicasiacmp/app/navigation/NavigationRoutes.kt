@@ -2,9 +2,15 @@ package junkeritechnepal.nicasiacmp.app.navigation
 
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
+import junkeritechnepal.nicasiacmp.modules.menus.MenuItemDto
 import kotlinx.serialization.Serializable
 
-val defaultExtrasArgument = listOf(navArgument("extras") { type = NavType.StringType })
+val defaultExtrasArgument = listOf(navArgument("menuItemDto") { type = NavType.StringType })
+
+@Serializable
+data class RouteExtras(
+    val menuItemDto: MenuItemDto? = null
+)
 
 @Serializable
 enum class NavigationRoutes {
@@ -22,3 +28,11 @@ enum class NavigationRoutes {
     SUBMENUS_ROUTE,
     MENU_ROUTE
 }
+
+fun NavigationRoutes.toRoute(extras: String? = null): PrivateRouteIntent {
+    return PrivateRouteIntent(code = this.name, extras)
+}
+
+
+@Serializable
+data class PrivateRouteIntent(val code: String? = null, val extras: String? = null)
