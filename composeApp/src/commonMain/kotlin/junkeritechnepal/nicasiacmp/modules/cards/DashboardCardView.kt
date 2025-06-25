@@ -21,22 +21,25 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import junkeritechnepal.nicasiacmp.modules.designSystem.AppTextStyle
 import nicasia_cmp.composeapp.generated.resources.Res
+import nicasia_cmp.composeapp.generated.resources.bg_account_card
 import nicasia_cmp.composeapp.generated.resources.card_design
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun DashboardCardView() {
-    Card(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = Color.Red)) {
+    Card(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = Color.Transparent)) {
         Box {
 
             Box {
                 Image(
                     modifier = Modifier.fillMaxSize(),
-                    painter = painterResource(Res.drawable.card_design),
+                    painter = painterResource(Res.drawable.bg_account_card),
+                    contentScale = ContentScale.Crop,
                     contentDescription = ""
                 )
             }

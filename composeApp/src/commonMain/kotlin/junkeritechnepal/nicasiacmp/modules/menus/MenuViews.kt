@@ -24,7 +24,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import junkeritechnepal.nicasiacmp.app.navigation.NavigationRoutes
 import junkeritechnepal.nicasiacmp.app.navigation.PrivateRouteIntent
+import junkeritechnepal.nicasiacmp.app.navigation.toRoute
 import junkeritechnepal.nicasiacmp.app.router.Router
 import junkeritechnepal.nicasiacmp.modules.designSystem.AppTextStyle
 import nicasia_cmp.composeapp.generated.resources.Res
@@ -74,7 +76,9 @@ object MenuViews {
                         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
                     ) {
                         Column(
-                            modifier = Modifier.padding(16.dp).clickable {  }
+                            modifier = Modifier.padding(16.dp).clickable {
+                                router.route(NavigationRoutes.MENU_ROUTE.toRoute())
+                            }
                         ) {
                             Text(
                                 text = dataSource[item].name ?: "",

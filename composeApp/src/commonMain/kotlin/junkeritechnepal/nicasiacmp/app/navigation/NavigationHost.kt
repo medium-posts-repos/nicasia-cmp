@@ -1,6 +1,7 @@
 package junkeritechnepal.nicasiacmp.app.navigation
 
 import DashboardContainerScreen
+import FormViewModel
 import LoginScreen
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
@@ -27,6 +28,7 @@ import junkeritechnepal.nicasiacmp.app.router.Router
 import junkeritechnepal.nicasiacmp.app.viewmodels.ShareViewModel
 import junkeritechnepal.nicasiacmp.core.extensions.receiveExtras
 import junkeritechnepal.nicasiacmp.modules.designSystem.DesignSystemScreen
+import junkeritechnepal.nicasiacmp.modules.forms.DynamicFormScreen
 import junkeritechnepal.nicasiacmp.modules.login.LoginSecondaryScreen
 import junkeritechnepal.nicasiacmp.modules.menus.MenuItemDto
 import junkeritechnepal.nicasiacmp.modules.menus.MenuViews
@@ -103,6 +105,9 @@ fun NavGraphBuilder.setupNonProtectedRoutes(router: Router) {
             }
             NavigationRoutes.SUBMENUS_ROUTE.name -> {
                 MenuViews.MenuCardListScreen(router, intent)
+            }
+            NavigationRoutes.MENU_ROUTE.name -> {
+                DynamicFormScreen(FormViewModel())
             }
             else -> {
                 Text("No routes configured")
