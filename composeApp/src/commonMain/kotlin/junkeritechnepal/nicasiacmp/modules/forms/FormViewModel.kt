@@ -14,7 +14,9 @@ class FormViewModel : ViewModel(), KoinComponent {
             listOf(
                 FormField(FormFieldType.TEXT, "username", "Username", ""),
                 FormField(FormFieldType.EMAIL, "email", "Email Address", ""),
-                FormField(FormFieldType.PASSWORD, "password", "Password", "")
+                FormField(FormFieldType.PASSWORD, "password", "Password", ""),
+                FormField(FormFieldType.DROPDOWN, "dropdown", "Password", "", options = listOf("Kathmandu", "Bhaktapur", "Lalitpur")),
+                FormField(FormFieldType.DROPDOWN, "branch", "Branch", "", options = listOf("001", "002", "003"))
             )
         )
     }

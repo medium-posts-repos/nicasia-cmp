@@ -5,7 +5,8 @@ enum class FormFieldType {
     EMAIL,
     PASSWORD,
     NUMBER,
-    CHECKBOX
+    CHECKBOX,
+    DROPDOWN
 }
 
 data class FormField(
@@ -14,5 +15,6 @@ data class FormField(
     val label: String,
     var value: String, // Mutable, as this is what the user changes
     val isEditable: Boolean = true, // Optional: to control if the field can be edited
-    val errorMessage: String? = null // Optional: for validation errors
+    val errorMessage: String? = null, // Optional: for validation errors
+    val options: List<String>? = null
 )
