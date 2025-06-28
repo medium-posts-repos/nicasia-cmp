@@ -12,8 +12,8 @@ class FormViewModel : ViewModel(), KoinComponent {
         // Example: Load initial fields (e.g., from a config, API, etc.)
         formFields.addAll(
             listOf(
-                FormField(FormFieldType.TEXT, "username", "Username", ""),
-                FormField(FormFieldType.EMAIL, "email", "Email Address", ""),
+                FormField(FormFieldType.TEXT, "username", "Username", "", placeHolder = "Enter user name"),
+                FormField(FormFieldType.EMAIL, "email", "Email Address", "", placeHolder = "Enter email address"),
                 FormField(FormFieldType.PASSWORD, "password", "Password", ""),
                 FormField(FormFieldType.DROPDOWN, "dropdown", "Password", "", options = listOf("Kathmandu", "Bhaktapur", "Lalitpur")),
                 FormField(FormFieldType.DROPDOWN, "branch", "Branch", "", options = listOf("001", "002", "003"))

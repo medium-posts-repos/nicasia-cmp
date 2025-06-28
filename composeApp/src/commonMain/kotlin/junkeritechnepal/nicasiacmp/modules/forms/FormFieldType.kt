@@ -13,8 +13,9 @@ data class FormField(
     val type: FormFieldType,
     val tag: String, // Unique identifier for the field
     val label: String,
-    var value: String, // Mutable, as this is what the user changes
+    var value: String,
+    val placeHolder: String? = null,
     val isEditable: Boolean = true, // Optional: to control if the field can be edited
-    val errorMessage: String? = null, // Optional: for validation errors
+    val errorMessage: String? = "", // Optional: for validation errors
     val options: List<String>? = null
 )
