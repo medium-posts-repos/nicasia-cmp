@@ -1,6 +1,7 @@
 package junkeritechnepal.nicasiacmp.modules.forms
 
 import FormViewModel
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -45,6 +46,7 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import junkeritechnepal.nicasiacmp.app.navigation.LocalNavController
 import junkeritechnepal.nicasiacmp.modules.designSystem.AppTextStyle
 import junkeritechnepal.nicasiacmp.modules.designSystem.backgroundColor
 import junkeritechnepal.nicasiacmp.modules.designSystem.textColorPrimary
@@ -58,15 +60,10 @@ fun DynamicFormScreen(formViewModel: FormViewModel = viewModel()) {
         containerColor = backgroundColor,
     ) { padding ->
         Card(modifier = Modifier.padding(padding).padding(horizontal = 14.dp), colors = CardDefaults.outlinedCardColors(containerColor = Color.White)) {
-//            Column(
-//                modifier = Modifier
-//                    .fillMaxSize()
-//                    .padding(16.dp)
-//            ) {
                 LazyColumn(modifier = Modifier.fillMaxWidth().padding(horizontal = 14.dp, vertical = 16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                     items(fields, key = { it.tag }) { formField ->
                         when(formField.type) {
-                            FormFieldType.EMAIL, FormFieldType.TEXT, FormFieldType.NUMBER, FormFieldType.PASSWORD -> {
+                            FormFieldType.EMAIL, FormFieldType.AMOUNT, FormFieldType.TEXT, FormFieldType.NUMBER, FormFieldType.PASSWORD -> {
                                 FormTextField(
                                     formField = formField,
                                     onValueChange = { newValue ->
@@ -80,41 +77,16 @@ fun DynamicFormScreen(formViewModel: FormViewModel = viewModel()) {
                             FormFieldType.DROPDOWN -> {
                                 DropDownField(formField)
                             }
+                            FormFieldType.AMOUNT_CHIPS -> {
+                                AmountChipFormField(formField)
+                            }
                         }
                     }
 
                     item {
-                        Button(
-                            colors = ButtonDefaults.outlinedButtonColors(containerColor = textColorPrimary, contentColor = Color.White),
-                            onClick = {
-                                if (formViewModel.validateFields()) {
-                                    val username = formViewModel.getFieldValue("username")
-                                    println("Form Submitted: $fields")
-                                } else {
-                                    println("Form has errors.")
-                                }
-                            },
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            Text("Submit")
-                        }
+                        ProceedCancelButton(formViewModel)
                     }
                 }
-//
-//                Button(
-//                    onClick = {
-//                        if (formViewModel.validateFields()) {
-//                            val username = formViewModel.getFieldValue("username")
-//                            println("Form Submitted: $fields")
-//                        } else {
-//                            println("Form has errors.")
-//                        }
-//                    },
-//                    modifier = Modifier.fillMaxWidth()
-//                ) {
-//                    Text("Submit")
-//                }
-//            }
         }
     }
 }
@@ -126,7 +98,7 @@ private fun FormTextField(
 ) {
     var isFocused by remember { mutableStateOf(false) }
 
-    Column(horizontalAlignment = Alignment.Start, verticalArrangement = Arrangement.spacedBy(1.dp)) {
+    Column(horizontalAlignment = Alignment.Start, verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Text(formField.label, style = AppTextStyle.textNormalDim())
         BasicTextField(
             value = formField.value,
@@ -204,7 +176,7 @@ private fun DropDownField(formField: FormField) {
         }
     }
 
-    Column(horizontalAlignment = Alignment.Start, verticalArrangement = Arrangement.spacedBy(8.dp)) {
+    Column(horizontalAlignment = Alignment.Start, verticalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.padding(bottom = 12.dp)) {
         Text(formField.label, style = AppTextStyle.textNormalDim())
         Box(
             modifier = Modifier
@@ -224,8 +196,43 @@ private fun DropDownField(formField: FormField) {
                     text = selectedOption.value,
                     color = Color.Black
                 )
-                Icon(Icons.Default.ArrowDropDown, modifier = Modifier.size(8.dp), tint = textColorPrimary, contentDescription = null)
+                Icon(Icons.Default.ArrowDropDown, modifier = Modifier.size(14.dp), tint = textColorPrimary, contentDescription = null)
             }
+        }
+    }
+}
+
+@Composable
+private fun ProceedCancelButton(formViewModel: FormViewModel) {
+    val navController = LocalNavController.current
+
+    Spacer(Modifier.height(18.dp))
+    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Button(
+            shape = RoundedCornerShape(10.dp),
+            colors = ButtonDefaults.outlinedButtonColors(containerColor = textColorPrimary, contentColor = Color.White),
+            onClick = {
+                if (formViewModel.validateFields()) {
+                    val username = formViewModel.getFieldValue("username")
+                } else {
+                    println("Form has errors.")
+                }
+            },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Submit")
+        }
+
+        Button(
+            border = BorderStroke(1.dp, Color.LightGray),
+            shape = RoundedCornerShape(10.dp),
+            colors = ButtonDefaults.outlinedButtonColors(containerColor = Color.Transparent, contentColor = Color.DarkGray),
+            onClick = {
+                navController.popBackStack()
+            },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Cancel")
         }
     }
 }

@@ -1,5 +1,6 @@
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
+import junkeritechnepal.nicasiacmp.modules.forms.AmountPayableOption
 import junkeritechnepal.nicasiacmp.modules.forms.FormField
 import junkeritechnepal.nicasiacmp.modules.forms.FormFieldType
 import org.koin.core.component.KoinComponent
@@ -16,7 +17,8 @@ class FormViewModel : ViewModel(), KoinComponent {
                 FormField(FormFieldType.EMAIL, "email", "Email Address", "", placeHolder = "Enter email address"),
                 FormField(FormFieldType.PASSWORD, "password", "Password", ""),
                 FormField(FormFieldType.DROPDOWN, "dropdown", "Password", "", options = listOf("Kathmandu", "Bhaktapur", "Lalitpur")),
-                FormField(FormFieldType.DROPDOWN, "branch", "Branch", "", options = listOf("001", "002", "003"))
+                FormField(FormFieldType.DROPDOWN, "branch", "Branch", "", options = listOf("001", "002", "003")),
+                FormField(FormFieldType.AMOUNT_CHIPS, "amount", "Amount", "", payableAmounts = AmountPayableOption.defaultAmountPayableOptions)
             )
         )
     }
@@ -60,7 +62,9 @@ class FormViewModel : ViewModel(), KoinComponent {
                     error = "Invalid number"
                     currentFieldValid = false
                 }
-                else -> { }
+                else -> {
+                   error = " "
+                }
             }
             if (!currentFieldValid) isValid = false
             field.copy(errorMessage = error)

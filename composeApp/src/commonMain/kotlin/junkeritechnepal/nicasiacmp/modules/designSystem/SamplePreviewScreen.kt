@@ -17,7 +17,11 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 val textColorDark = Color(0xFF000000)
 val textColorMedium = Color(0xFF666666)
 val textColorPrimary = Color.Red
+val appColorPrimary = Color.Red
+val primary200 = Color.Red.copy(0.05f)
+val primary300 = Color.Red.copy(0.2f)
 val backgroundColor = Color(0xfffafafa)
+val borderLight = Color(0xfffafafa)
 
 val AppTypography = Typography(
     bodyLarge = TextStyle(
