@@ -16,7 +16,7 @@ data class MenuItemDto(
     val icon: String? = null,
     val code: String? = null,
     val type: String? = null,
-    var subMenus: List<MenuItemDto>? = null
+    var subMenus: List<MenuItemDto> = listOf()
 )
 
 object MenuDataSource {

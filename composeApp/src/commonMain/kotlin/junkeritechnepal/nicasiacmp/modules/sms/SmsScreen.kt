@@ -61,7 +61,7 @@ fun SmsScreen(router: Router) {
 
     Scaffold(
         topBar = {
-            LoginNavHeaderView(scrollBehavior = scrollBehavior)
+            NavHeaderView(scrollBehavior = scrollBehavior)
         },
         containerColor = backgroundColor,
     ) { padding ->
@@ -109,7 +109,7 @@ fun SmsScreen(router: Router) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun LoginNavHeaderView(scrollBehavior: TopAppBarScrollBehavior) {
+private fun NavHeaderView(scrollBehavior: TopAppBarScrollBehavior) {
     val navController = LocalNavController.current
 
     Column {

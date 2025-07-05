@@ -80,7 +80,7 @@ object MenuViews {
                     ) {
                         Column(
                             modifier = Modifier.padding(16.dp).clickable {
-                                router.route(NavigationRoutes.MENU_ROUTE.toRoute())
+                                router.route(NavigationRoutes.MENU_ROUTE.toRoute(dataSource[item].toJsonString()))
                             }
                         ) {
                             Text(

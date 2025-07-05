@@ -67,7 +67,7 @@ fun DynamicFormScreen(formViewModel: FormViewModel = viewModel(), intent: Privat
             modifier = Modifier
                 .padding(padding)
                 .fillMaxSize()
-                .padding(horizontal = 14.dp),
+                .padding(horizontal = 14.dp).padding(top = 6.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             item {
