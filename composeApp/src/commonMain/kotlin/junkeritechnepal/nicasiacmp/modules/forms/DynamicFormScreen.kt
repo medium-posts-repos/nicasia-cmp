@@ -22,7 +22,6 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -31,9 +30,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -47,46 +47,76 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import junkeritechnepal.nicasiacmp.app.navigation.LocalNavController
+import junkeritechnepal.nicasiacmp.app.navigation.PrivateRouteIntent
 import junkeritechnepal.nicasiacmp.modules.designSystem.AppTextStyle
-import junkeritechnepal.nicasiacmp.modules.designSystem.backgroundColor
+import junkeritechnepal.nicasiacmp.modules.designSystem.components.NormalScaffold
+import junkeritechnepal.nicasiacmp.modules.designSystem.primary200
 import junkeritechnepal.nicasiacmp.modules.designSystem.textColorPrimary
+import junkeritechnepal.nicasiacmp.modules.menus.MenuItemDto
 import kotlinx.coroutines.launch
-import org.jetbrains.compose.resources.vectorResource
+import toObject
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DynamicFormScreen(formViewModel: FormViewModel = viewModel(), intent: PrivateRouteIntent) {
+    val targetMenu = intent.extras?.toObject<MenuItemDto>()
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+
+    NormalScaffold(targetMenu?.name ?: "", scrollBehavior = scrollBehavior) { padding ->
+        LazyColumn(
+            modifier = Modifier
+                .padding(padding)
+                .fillMaxSize()
+                .padding(horizontal = 14.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            item {
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.outlinedCardColors(containerColor = Color.White)
+                ) {
+                    RenderCardForms(formViewModel)
+                }
+            }
+
+            item {
+                ProceedCancelButton(formViewModel)
+            }
+        }
+    }
+}
 
 @Composable
-fun DynamicFormScreen(formViewModel: FormViewModel = viewModel()) {
-    val fields = formViewModel.formFields
-    Scaffold(
-        containerColor = backgroundColor,
-    ) { padding ->
-        Card(modifier = Modifier.padding(padding).padding(horizontal = 14.dp), colors = CardDefaults.outlinedCardColors(containerColor = Color.White)) {
-                LazyColumn(modifier = Modifier.fillMaxWidth().padding(horizontal = 14.dp, vertical = 16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                    items(fields, key = { it.tag }) { formField ->
-                        when(formField.type) {
-                            FormFieldType.EMAIL, FormFieldType.AMOUNT, FormFieldType.TEXT, FormFieldType.NUMBER, FormFieldType.PASSWORD -> {
-                                FormTextField(
-                                    formField = formField,
-                                    onValueChange = { newValue ->
-                                        formViewModel.updateFieldValue(formField.tag, newValue)
-                                    }
-                                )
-                            }
-                            FormFieldType.CHECKBOX -> {
-                                Text("Check box...")
-                            }
-                            FormFieldType.DROPDOWN -> {
-                                DropDownField(formField)
-                            }
-                            FormFieldType.AMOUNT_CHIPS -> {
-                                AmountChipFormField(formField)
-                            }
+private fun RenderCardForms(formViewModel: FormViewModel) {
+    Column(modifier = Modifier.padding(horizontal = 14.dp, vertical = 16.dp)) {
+        formViewModel.formFields.forEach { formField ->
+            Spacer(Modifier.height(6.dp))
+            when (formField.type) {
+                FormFieldType.EMAIL,
+                FormFieldType.AMOUNT,
+                FormFieldType.TEXT,
+                FormFieldType.NUMBER,
+                FormFieldType.PASSWORD -> {
+                    FormTextField(
+                        formField = formField,
+                        onValueChange = { newValue ->
+                            formViewModel.updateFieldValue(formField.tag, newValue)
                         }
-                    }
-
-                    item {
-                        ProceedCancelButton(formViewModel)
-                    }
+                    )
                 }
+
+                FormFieldType.CHECKBOX -> {
+                    Text("Check box…")
+                }
+
+                FormFieldType.DROPDOWN -> {
+                    DropDownField(formField)
+                }
+
+                FormFieldType.AMOUNT_CHIPS -> {
+                    AmountChipFormField(formField)
+                }
+            }
         }
     }
 }
@@ -126,7 +156,7 @@ private fun FormTextField(
             Text(
                 text = error,
 
-                color = MaterialTheme.colorScheme.error,
+                color = primary200,
                 style = MaterialTheme.typography.bodySmall,
                 modifier = Modifier.padding(0.dp)
             )
@@ -206,8 +236,8 @@ private fun DropDownField(formField: FormField) {
 private fun ProceedCancelButton(formViewModel: FormViewModel) {
     val navController = LocalNavController.current
 
-    Spacer(Modifier.height(18.dp))
-    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+    Spacer(Modifier.height(14.dp))
+    Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
         Button(
             shape = RoundedCornerShape(10.dp),
             colors = ButtonDefaults.outlinedButtonColors(containerColor = textColorPrimary, contentColor = Color.White),

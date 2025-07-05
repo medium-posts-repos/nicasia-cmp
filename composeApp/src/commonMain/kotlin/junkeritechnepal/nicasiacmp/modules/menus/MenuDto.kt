@@ -1,7 +1,5 @@
 package junkeritechnepal.nicasiacmp.modules.menus
 
-import junkeritechnepal.nicasiacmp.app.navigation.RouteExtras
-import kotlinx.serialization.Polymorphic
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -18,7 +16,7 @@ data class MenuItemDto(
     val icon: String? = null,
     val code: String? = null,
     val type: String? = null,
-    var subMenus: List<MenuItemDto>? = listOf()
+    var subMenus: List<MenuItemDto>? = null
 )
 
 object MenuDataSource {

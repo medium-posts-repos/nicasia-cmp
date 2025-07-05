@@ -30,9 +30,9 @@ enum class NavigationRoutes {
 }
 
 fun NavigationRoutes.toRoute(extras: String? = null): PrivateRouteIntent {
-    return PrivateRouteIntent(code = this.name, extras)
+    return PrivateRouteIntent(code = this.name, extras = extras)
 }
 
 
 @Serializable
-data class PrivateRouteIntent(val code: String? = null, val extras: String? = null)
+data class PrivateRouteIntent(val title: String? = null, val code: String? = null, val extras: String? = null)

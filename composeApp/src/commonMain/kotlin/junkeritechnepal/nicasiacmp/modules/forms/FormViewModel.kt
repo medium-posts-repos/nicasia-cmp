@@ -18,7 +18,9 @@ class FormViewModel : ViewModel(), KoinComponent {
                 FormField(FormFieldType.PASSWORD, "password", "Password", ""),
                 FormField(FormFieldType.DROPDOWN, "dropdown", "Password", "", options = listOf("Kathmandu", "Bhaktapur", "Lalitpur")),
                 FormField(FormFieldType.DROPDOWN, "branch", "Branch", "", options = listOf("001", "002", "003")),
-                FormField(FormFieldType.AMOUNT_CHIPS, "amount", "Amount", "", payableAmounts = AmountPayableOption.defaultAmountPayableOptions)
+                FormField(FormFieldType.AMOUNT_CHIPS, "amount", "Amount", "", payableAmounts = AmountPayableOption.defaultAmountPayableOptions),
+                FormField(FormFieldType.AMOUNT_CHIPS, "amount1", "Amount", "", payableAmounts = AmountPayableOption.defaultAmountPayableOptions),
+                FormField(FormFieldType.AMOUNT_CHIPS, "amount2", "Amount", "", payableAmounts = AmountPayableOption.defaultAmountPayableOptions)
             )
         )
     }

@@ -107,7 +107,7 @@ fun NavGraphBuilder.setupNonProtectedRoutes(router: Router) {
                 MenuViews.MenuCardListScreen(router, intent)
             }
             NavigationRoutes.MENU_ROUTE.name -> {
-                DynamicFormScreen(FormViewModel())
+                DynamicFormScreen(FormViewModel(), intent)
             }
             else -> {
                 Text("No routes configured")

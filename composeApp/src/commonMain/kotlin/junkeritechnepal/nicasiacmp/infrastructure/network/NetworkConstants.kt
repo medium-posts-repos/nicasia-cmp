@@ -4,7 +4,7 @@ package junkeritechnepal.nicasiacmp.infrastructure.network
 class NetworkConstants  {
 
     companion object {
-        private const val BASE_URL = "http://localhost:9000/api/v1"
+        private const val BASE_URL = "http://192.168.1.4:9000/api/v1"
         const val FETCH_COUNTRY_JSON = "FETCH_COUNTRY_JSON"
         const val PUBLIC_MENUS = "PUBLIC_MENUS"
 

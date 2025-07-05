@@ -14,7 +14,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.sharp.KeyboardArrowRight
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,9 +29,11 @@ import junkeritechnepal.nicasiacmp.app.navigation.PrivateRouteIntent
 import junkeritechnepal.nicasiacmp.app.navigation.toRoute
 import junkeritechnepal.nicasiacmp.app.router.Router
 import junkeritechnepal.nicasiacmp.modules.designSystem.AppTextStyle
+import junkeritechnepal.nicasiacmp.modules.designSystem.backgroundColor
 import nicasia_cmp.composeapp.generated.resources.Res
 import nicasia_cmp.composeapp.generated.resources.nicasisa
 import org.jetbrains.compose.resources.painterResource
+import toJsonString
 import toObject
 
 object MenuViews {
@@ -58,6 +60,7 @@ object MenuViews {
         }
     }
 
+    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun MenuCardListScreen(router: Router, intent: PrivateRouteIntent?) {
         Scaffold { padding ->
@@ -82,11 +85,11 @@ object MenuViews {
                         ) {
                             Text(
                                 text = dataSource[item].name ?: "",
-                                style = MaterialTheme.typography.titleMedium
+                                style = AppTextStyle.boldDark()
                             )
                             Text(
                                 text = dataSource[item].desc ?: "",
-                                style = MaterialTheme.typography.bodyMedium,
+                                style =AppTextStyle.bodyNormalDark,
                                 modifier = Modifier.padding(top = 4.dp)
                             )
                         }
