@@ -1,6 +1,7 @@
 package junkeritechnepal.nicasiacmp.modules.menus
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,8 +21,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
+import junkeritechnepal.nicasiacmp.app.navigation.LocalNavController
+import junkeritechnepal.nicasiacmp.app.navigation.NavigationRoutes
+import junkeritechnepal.nicasiacmp.app.navigation.toRoute
+import junkeritechnepal.nicasiacmp.app.router.Router
 import junkeritechnepal.nicasiacmp.modules.designSystem.AppTextStyle
 import junkeritechnepal.nicasiacmp.modules.designSystem.AppTypography
+import toJsonString
 
 @Composable
 fun MenuSingleGridView(title: String = "Top Services", data: MenuResDto) {
@@ -34,10 +40,11 @@ fun HorizontalGridBox(
     items: List<MenuItemDto>,
     rowsPerColumn: Int = 4
 ) {
-
     val columns: List<List<MenuItemDto>> = remember(items, rowsPerColumn) {
         items.chunked(rowsPerColumn)
     }
+
+    val router = Router(navigator = LocalNavController.current)
 
     Column(
         modifier = Modifier
@@ -56,7 +63,10 @@ fun HorizontalGridBox(
                         modifier = Modifier
                             .height(80.dp)
                             .width(80.dp)
-                            .background(Color.White, shape = RoundedCornerShape(8.dp)),
+                            .background(Color.White, shape = RoundedCornerShape(8.dp))
+                            .clickable {
+                                router.route(NavigationRoutes.MENU_ROUTE.toRoute(item.toJsonString()))
+                            },
                         contentAlignment = Alignment.Center
                     ) {
                        Column(

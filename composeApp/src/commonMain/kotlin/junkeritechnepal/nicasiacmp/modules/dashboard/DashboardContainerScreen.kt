@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import junkeritechnepal.nicasiacmp.modules.camera.CameraScreen
 import junkeritechnepal.nicasiacmp.modules.cards.DashboardCardView
+import junkeritechnepal.nicasiacmp.modules.dashboard.HomeScreen
 import junkeritechnepal.nicasiacmp.modules.menus.MenuSingleGridView
 import junkeritechnepal.nicasiacmp.modules.menus.MenuViewModel
 import nicasia_cmp.composeapp.generated.resources.Res
@@ -132,29 +133,5 @@ private fun DashboardScreen(menuViewModel: MenuViewModel) {
                     end = 24.dp
                 )
         )
-    }
-}
-
-@Composable
-private fun HomeScreen(menuViewModel: MenuViewModel, scrollState: ScrollState) {
-    val menuApiRes = menuViewModel.menuApiResState.collectAsState()
-
-    LaunchedEffect(Unit) {
-        menuViewModel.fetchPublicMenus()
-    }
-
-    Column(
-        verticalArrangement = Arrangement.spacedBy(18.dp, alignment = Alignment.Top),
-        horizontalAlignment = Alignment.Start,
-        modifier = Modifier.padding(16.dp)
-            .fillMaxWidth()
-            .verticalScroll(scrollState)
-    ) {
-        DashboardCardView()
-        MenuSingleGridView(title = "Financial Services", data = menuApiRes.value)
-        MenuSingleGridView(title = "Payments", data = menuApiRes.value)
-        MenuSingleGridView(title = "FonePayments", data = menuApiRes.value)
-        MenuSingleGridView(title = "ECommerces", data = menuApiRes.value)
-        Spacer(modifier = Modifier.height(100.dp))
     }
 }
