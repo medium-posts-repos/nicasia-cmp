@@ -46,7 +46,7 @@ object MenuViews {
                     contentDescription = "",
                     modifier = Modifier.size(26.dp)
                 )
-                Column(horizontalAlignment = Alignment.Start, verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                Column(horizontalAlignment = Alignment.Start, verticalArrangement = Arrangement.spacedBy(3.dp)) {
                     Text("Open a Lite Account", style = AppTextStyle.boldDark(fontSize = 12.sp))
                     Text("Access our services in just few steps", style = AppTextStyle.textNormalDim())
                 }
@@ -56,6 +56,24 @@ object MenuViews {
                     contentDescription = "",
                     modifier = Modifier.size(14.dp)
                 )
+            }
+        }
+    }
+
+    @Composable
+    fun NormalIconTitleDescCardView(item: MenuItemDto, modifier: Modifier) {
+        Card(modifier = modifier, colors = CardDefaults.cardColors(containerColor = Color.White)) {
+            Row(horizontalArrangement = Arrangement.spacedBy(12.dp, alignment = Alignment.Start), modifier = Modifier.padding(12.dp).fillMaxWidth()) {
+                Image(
+                    painter = painterResource(Res.drawable.nicasisa),
+                    contentDescription = "",
+                    modifier = Modifier.size(26.dp)
+                )
+                Column(horizontalAlignment = Alignment.Start, verticalArrangement = Arrangement.spacedBy(3.dp)) {
+                    Text(item.name ?: "", style = AppTextStyle.boldDark(fontSize = 12.sp))
+                    Text(item.desc ?: "", style = AppTextStyle.textNormalDim())
+                }
+                Spacer(Modifier.weight(1f))
             }
         }
     }

@@ -7,6 +7,7 @@ class NetworkConstants  {
         private const val BASE_URL = "http://192.168.1.4:9000/api/v1"
         const val FETCH_COUNTRY_JSON = "FETCH_COUNTRY_JSON"
         const val PUBLIC_MENUS = "PUBLIC_MENUS"
+        const val SEND_MONEY_MENUS = "PUBLIC_MENUS"
 
         fun routeFor(code: String): String {
             return when(code) {

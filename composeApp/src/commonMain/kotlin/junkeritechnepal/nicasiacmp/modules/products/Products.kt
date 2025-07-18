@@ -31,6 +31,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
+import junkeritechnepal.nicasiacmp.modules.designSystem.appColorPrimary
+import junkeritechnepal.nicasiacmp.modules.designSystem.primary200
+import junkeritechnepal.nicasiacmp.modules.designSystem.primary300
 
 data class PhotoItem(
     val id: Int,
@@ -39,7 +42,6 @@ data class PhotoItem(
 )
 
 object ProductViewModule {
-    @OptIn(ExperimentalFoundationApi::class)
     @Composable
     fun HorizontalPhotoScroller(
         modifier: Modifier = Modifier,
@@ -145,9 +147,7 @@ object ProductViewModule {
             ) {
                 repeat(size) { iteration ->
                     val color =
-                        if (pagerState.currentPage == iteration) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.primary.copy(
-                            alpha = 0.3f
-                        )
+                        if (pagerState.currentPage == iteration) appColorPrimary else primary200
                     Box(
                         modifier = Modifier
                             .padding(horizontal = 2.dp)

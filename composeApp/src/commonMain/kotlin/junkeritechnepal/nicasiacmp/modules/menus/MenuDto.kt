@@ -27,4 +27,13 @@ object MenuDataSource {
             MenuItemDto("Ncell Topup","Ncell Topup", null, code = "NCELLTOP"),
             MenuItemDto("Load eSewa","Transfer to eSewa A/C", null, code = "LOADESEWA")
         )
+
+    val sendMoneyMenus: List<MenuItemDto>
+        get() = listOf(
+            MenuItemDto("Same Bank", desc = "Transfer fund to other accounts within same bank", code = "SMSB"),
+            MenuItemDto("Other Banks using ConnectIPS", desc = "Transfer fund to other accounts using ConnectIPS", code = "CIPS"),
+            MenuItemDto("Other Bank","Other Bank", null, code = "SMOB"),
+            MenuItemDto("Insta Fund Transfer","Using InstaFund Transfer", null, code = "NPS"),
+            MenuItemDto("Remittance","Using Remittance", null, code = "IREMIT")
+        )
 }

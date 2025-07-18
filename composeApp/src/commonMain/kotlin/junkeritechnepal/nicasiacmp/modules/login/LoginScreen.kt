@@ -1,7 +1,6 @@
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -64,15 +63,14 @@ import junkeritechnepal.nicasiacmp.app.navigation.toRoute
 import junkeritechnepal.nicasiacmp.modules.designSystem.AdaptiveLoader
 import junkeritechnepal.nicasiacmp.modules.designSystem.AppTextStyle
 import junkeritechnepal.nicasiacmp.modules.designSystem.AppTypography
-import junkeritechnepal.nicasiacmp.modules.menus.MenuViews
 import junkeritechnepal.nicasiacmp.modules.login.LoginCountryResDto
 import junkeritechnepal.nicasiacmp.modules.login.LoginViewModel
 import junkeritechnepal.nicasiacmp.modules.login.LoginViewModelExt.dismissCountrySheet
 import junkeritechnepal.nicasiacmp.modules.login.LoginViewModelExt.fetchCountrySheet
+import junkeritechnepal.nicasiacmp.modules.menus.MenuViews
 import kotlinx.coroutines.launch
 import nicasia_cmp.composeapp.generated.resources.Res
 import nicasia_cmp.composeapp.generated.resources.bank_logo
-import nicasia_cmp.composeapp.generated.resources.nicasisa
 import org.jetbrains.compose.resources.painterResource
 
 @OptIn(ExperimentalMaterial3Api::class)

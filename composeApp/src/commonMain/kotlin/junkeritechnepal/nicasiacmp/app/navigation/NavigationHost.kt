@@ -78,7 +78,6 @@ fun AppNavigationHost() {
 //                )
 //            }
         ) {
-            setupProtectedRoutes(router)
             setupNonProtectedRoutes(router)
         }
     }
@@ -95,7 +94,7 @@ fun NavGraphBuilder.setupNonProtectedRoutes(router: Router) {
                 LoginSecondaryScreen()
             }
             NavigationRoutes.DASHBOARD_ROUTE.name -> {
-                DashboardContainerScreen()
+                DashboardContainerScreen(router)
             }
             NavigationRoutes.DESIGN_SYSTEM.name -> {
                 DesignSystemScreen()
@@ -116,11 +115,6 @@ fun NavGraphBuilder.setupNonProtectedRoutes(router: Router) {
     }
 }
 
-fun NavGraphBuilder.setupProtectedRoutes(router: Router) {
-    composable(NavigationRoutes.DASHBOARD_ROUTE.name) {
-        DashboardContainerScreen()
-    }
-}
 
 @Composable
 fun SplashScreen() {

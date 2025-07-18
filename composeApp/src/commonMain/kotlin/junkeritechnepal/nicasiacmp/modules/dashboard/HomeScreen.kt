@@ -26,18 +26,18 @@ import junkeritechnepal.nicasiacmp.modules.products.ProductViewModule
 
 @Composable
 fun HomeScreen(menuViewModel: MenuViewModel, scrollState: ScrollState) {
-    val menuApiRes = menuViewModel.menuApiResState.collectAsState()
+    val menuApiRes by menuViewModel.menuApiResState.collectAsState()
     var cachedMenu by remember { mutableStateOf(MenuResDto()) }
 
     // Fetch data once
-    LaunchedEffect(Unit) {
+    LaunchedEffect(null) {
         menuViewModel.fetchPublicMenus()
     }
 
     // Cache data after successful fetch
-    LaunchedEffect(menuApiRes.value) {
-        if (menuApiRes.value.success == true) {
-            cachedMenu = menuApiRes.value
+    LaunchedEffect(menuApiRes.data) {
+        if (menuApiRes.success == true) {
+            cachedMenu = menuApiRes
         }
     }
 
@@ -50,7 +50,6 @@ fun HomeScreen(menuViewModel: MenuViewModel, scrollState: ScrollState) {
             .verticalScroll(scrollState)
     ) {
         DashboardCardView()
-
         // Use the cached result instead of live state
         MenuSingleGridView(title = "Financial Services", data = cachedMenu)
         ProductViewModule.HorizontalPhotoScroller()

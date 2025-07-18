@@ -48,7 +48,7 @@ fun NormalScaffold(
                     }) {
                         Icon(if(isIos()) Icons.AutoMirrored.Outlined.KeyboardArrowLeft else Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back",
                             tint = MaterialTheme.colorScheme.onPrimary,
-                            modifier = Modifier.width(if(isIos()) 26.dp else 20.dp).height(26.dp)
+                            modifier = Modifier.width(if(isIos()) 32.dp else 24.dp).height(26.dp)
                         )
                     }
                 },
