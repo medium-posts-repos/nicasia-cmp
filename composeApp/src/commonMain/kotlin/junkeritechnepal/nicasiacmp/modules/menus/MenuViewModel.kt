@@ -26,7 +26,8 @@ class MenuViewModel: BaseViewModel() {
         println("Going to fetchPublicMenus...")
 
         viewModelScope.launchSafe {
-            val result = networkService.getRequest<MenuResDto>(NetworkConstants.PUBLIC_MENUS)
+//            val result = networkService.getRequest<MenuResDto>(NetworkConstants.PUBLIC_MENUS)
+            val result = menuMockData
             _menuApiResState.value = result
             println(result)
         }
