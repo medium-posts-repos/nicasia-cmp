@@ -97,6 +97,7 @@ android {
 }
 
 dependencies {
+    implementation("androidx.core:core-ktx:+")
     debugImplementation(compose.uiTooling)
     debugImplementation(compose.preview)
 }
