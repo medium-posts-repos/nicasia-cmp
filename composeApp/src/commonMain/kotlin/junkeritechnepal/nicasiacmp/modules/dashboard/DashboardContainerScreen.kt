@@ -61,9 +61,8 @@ fun DashboardContainerScreen(router: Router) {
     )
 
     // Lift selectedTab and scrollState up so they persist across recompositions
-    var selectedTab by remember { mutableIntStateOf(0) }
 
-    println("DashboardContainerScreen recomposed with selectedTab: $selectedTab")
+    println("DashboardContainerScreen recomposed with selectedTab: ")
 
     HorizontalPager(
         state = pagerState,
@@ -73,7 +72,7 @@ fun DashboardContainerScreen(router: Router) {
         val screen: @Composable () -> Unit = remember(page) {
             when (page) {
                 0 -> { { PageScreen("Left Screen", Color(0xFFBBDEFB)) } }
-                1 -> { { DashboardScreen( router, selectedTab, { selectedTab = it }) } }
+                1 -> { { DashboardScreen(router) } }
                 2 -> { { CameraScreen() } }
                 else -> { { Text("Unknown pagee") } }
             }
@@ -100,12 +99,11 @@ private fun PageScreen(label: String, color: Color) {
 
 @Composable
 private fun DashboardScreen(
-    router: Router,
-    selectedTab: Int,
-    onTabSelected: (Int) -> Unit
+    router: Router
 ) {
     val bottomPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
     val finalBottomPadding = bottomPadding + 24.dp
+    var selectedTab by remember { mutableIntStateOf(0) }
 
     val items = listOf("Home", "Search", "", "Profile", "More")
 
@@ -122,12 +120,12 @@ private fun DashboardScreen(
                         NavigationBarItem(
                             colors = NavigationBarItemDefaults.colors(indicatorColor = Color.Transparent),
                             selected = selectedTab == index,
-                            onClick = { onTabSelected(index) },
+                            onClick = { selectedTab = index },
                             icon = {
                                 when(index) {
                                     0 -> { Icon(Icons.Default.Home, contentDescription = label) }
                                     1 -> {Icon(Icons.Default.ShoppingCart, contentDescription = label) }
-                                    2 -> { QRScanNavigationBarItem(index) { onTabSelected(index) } }
+                                    2 -> { QRScanNavigationBarItem(index) { selectedTab = index } }
                                     3 -> {Icon(Icons.Default.Person, contentDescription = label) }
                                     4 -> {Icon(Icons.Default.Person, contentDescription = label) }
                                 }
@@ -140,7 +138,7 @@ private fun DashboardScreen(
         ) { innerPadding ->
             Crossfade(targetState = selectedTab, animationSpec = tween(durationMillis = 400)) { currentTab ->
                 when (currentTab) {
-                    0 -> {HomeScreen() }
+                    0 -> { HomeScreen() }
                     3 -> { SendMoneyContainerScreen(router) }
                     else -> { Text("Current tab $currentTab") }
                 }
