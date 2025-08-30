@@ -4,7 +4,7 @@ import ComposeApp
 
 struct ComposeView: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIViewController {
-        MainViewControllerKt.MainViewController()
+        MainViewControllerKt.MainViewController(nativeViewFactory: IOSNativeViewFactory.shared)
     }
 
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
@@ -17,8 +17,6 @@ struct ContentView: View {
             .ignoresSafeArea(.all) // Compose has own keyboard handler
     }
 }
-
-
 
 import SwiftUI
 

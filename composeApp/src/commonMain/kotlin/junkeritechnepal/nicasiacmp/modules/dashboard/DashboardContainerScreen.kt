@@ -1,6 +1,7 @@
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
@@ -65,11 +66,6 @@ fun DashboardContainerScreen(router: Router) {
         state = pagerState,
         pageSize = PageSize.Fill,
         modifier = Modifier.fillMaxSize()
-            .padding(
-                WindowInsets.systemBars.only(
-                    WindowInsetsSides.Top + WindowInsetsSides.Horizontal
-                ).asPaddingValues()
-            )
     ) { page ->
         val screen: @Composable () -> Unit = remember(page) {
             when (page) {
@@ -88,6 +84,7 @@ fun DashboardContainerScreen(router: Router) {
 private fun PageScreen(label: String, color: Color) {
     Box(
         modifier = Modifier
+            .background(Color.Yellow)
             .fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
@@ -108,7 +105,11 @@ private fun DashboardScreen(
 
     val items = listOf("Home", "Search", "", "Profile", "More")
 
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = Modifier.fillMaxSize().padding(
+        WindowInsets.systemBars.only(
+            WindowInsetsSides.Top + WindowInsetsSides.Horizontal
+        ).asPaddingValues()
+    )) {
         Scaffold(
             containerColor = Color(0xfffafafa),
             bottomBar = {
