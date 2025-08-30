@@ -55,13 +55,12 @@ fun HomeScreen() {
             .fillMaxWidth()
             .verticalScroll(scrollState)
     ) {
-//        DashboardCardView()
-        // Use the cached result instead of live state
-//        MenuSingleGridView(title = "Financial Services", data = cachedMenu)
+        DashboardCardView()
+        MenuSingleGridView(title = "Financial Services", data = cachedMenu)
         ProductViewModule.HorizontalPhotoScroller()
-//        MenuSingleGridView(title = "Payments", data = cachedMenu)
-//        MenuSingleGridView(title = "FonePayments", data = cachedMenu)
-//        MenuSingleGridView(title = "ECommerces", data = cachedMenu)
+        MenuSingleGridView(title = "Payments", data = cachedMenu)
+        MenuSingleGridView(title = "FonePayments", data = cachedMenu)
+        MenuSingleGridView(title = "ECommerces", data = cachedMenu)
 
         for (i in 1..200) {
             Text(text = "Random number $i", fontSize = 24.sp, color = Color.Black)
