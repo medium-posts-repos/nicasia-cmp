@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -25,12 +26,14 @@ import junkeritechnepal.nicasiacmp.modules.menus.MenuViewModel
 import junkeritechnepal.nicasiacmp.modules.products.ProductViewModule
 
 @Composable
-fun HomeScreen(menuViewModel: MenuViewModel, scrollState: ScrollState) {
+fun HomeScreen() {
+    val menuViewModel by lazy { MenuViewModel() }
     val menuApiRes by menuViewModel.menuApiResState.collectAsState()
     var cachedMenu by remember { mutableStateOf(MenuResDto()) }
+    val scrollState = rememberScrollState()
 
     // Fetch data once
-    LaunchedEffect(null) {
+    LaunchedEffect(Unit) {
         menuViewModel.fetchPublicMenus()
     }
 

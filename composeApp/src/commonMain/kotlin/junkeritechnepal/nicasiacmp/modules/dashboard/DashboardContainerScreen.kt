@@ -1,12 +1,15 @@
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
@@ -17,6 +20,7 @@ import androidx.compose.foundation.pager.PageSize
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Home
@@ -51,8 +55,6 @@ import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun DashboardContainerScreen(router: Router) {
-    val menuViewModel by lazy { MenuViewModel() }
-
     val pagerState = rememberPagerState(
         initialPage = 1, // Start with middle screen
         pageCount = { 3 }
@@ -60,7 +62,8 @@ fun DashboardContainerScreen(router: Router) {
 
     // Lift selectedTab and scrollState up so they persist across recompositions
     var selectedTab by remember { mutableIntStateOf(0) }
-    val homeScrollState = rememberScrollState()
+
+    println("DashboardContainerScreen recomposed with selectedTab: $selectedTab")
 
     HorizontalPager(
         state = pagerState,
@@ -70,7 +73,7 @@ fun DashboardContainerScreen(router: Router) {
         val screen: @Composable () -> Unit = remember(page) {
             when (page) {
                 0 -> { { PageScreen("Left Screen", Color(0xFFBBDEFB)) } }
-                1 -> { { DashboardScreen(menuViewModel, router, selectedTab, { selectedTab = it }, homeScrollState) } }
+                1 -> { { DashboardScreen( router, selectedTab, { selectedTab = it }) } }
                 2 -> { { CameraScreen() } }
                 else -> { { Text("Unknown pagee") } }
             }
@@ -82,23 +85,24 @@ fun DashboardContainerScreen(router: Router) {
 
 @Composable
 private fun PageScreen(label: String, color: Color) {
-    Box(
-        modifier = Modifier
-            .background(Color.Yellow)
-            .fillMaxSize(),
-        contentAlignment = Alignment.Center
+    val scrollState = rememberScrollState()
+
+    Column(modifier = Modifier
+        .background(Color.Yellow)
+        .verticalScroll(scrollState)
+        .fillMaxWidth()
     ) {
-        Text(text = label, fontSize = 24.sp, color = Color.Black)
+        for (i in 1..200) {
+            Text(text = label, fontSize = 24.sp, color = Color.Black)
+        }
     }
 }
 
 @Composable
 private fun DashboardScreen(
-    menuViewModel: MenuViewModel,
     router: Router,
     selectedTab: Int,
-    onTabSelected: (Int) -> Unit,
-    homeScrollState: androidx.compose.foundation.ScrollState
+    onTabSelected: (Int) -> Unit
 ) {
     val bottomPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
     val finalBottomPadding = bottomPadding + 24.dp
@@ -136,7 +140,7 @@ private fun DashboardScreen(
         ) { innerPadding ->
             Crossfade(targetState = selectedTab, animationSpec = tween(durationMillis = 400)) { currentTab ->
                 when (currentTab) {
-                    0 -> { HomeScreen(menuViewModel, homeScrollState) }
+                    0 -> {HomeScreen() }
                     3 -> { SendMoneyContainerScreen(router) }
                     else -> { Text("Current tab $currentTab") }
                 }

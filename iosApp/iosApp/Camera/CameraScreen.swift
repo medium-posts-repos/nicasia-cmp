@@ -17,7 +17,6 @@ public struct CameraScreenView: View {
         VStack {
             if isCameraAuthorized {
                 CameraView()
-                    .frame(width: .infinity, height: .infinity)
             } else {
                 PermissionPlaceholder()
             }
