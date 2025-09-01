@@ -29,8 +29,7 @@ import junkeritechnepal.nicasiacmp.modules.menus.MenuViewModel
 import junkeritechnepal.nicasiacmp.modules.products.ProductViewModule
 
 @Composable
-fun HomeScreen() {
-    val menuViewModel by remember { mutableStateOf(MenuViewModel()) }
+fun HomeScreen(menuViewModel: MenuViewModel) {
     val menuApiRes by menuViewModel.menuApiResState.collectAsState()
     var cachedMenu by remember { mutableStateOf(MenuResDto()) }
     val scrollState = rememberScrollState()
@@ -61,10 +60,6 @@ fun HomeScreen() {
         MenuSingleGridView(title = "Payments", data = cachedMenu)
         MenuSingleGridView(title = "FonePayments", data = cachedMenu)
         MenuSingleGridView(title = "ECommerces", data = cachedMenu)
-
-        for (i in 1..200) {
-            Text(text = "Random number $i", fontSize = 24.sp, color = Color.Black)
-        }
 
         Spacer(modifier = Modifier.height(100.dp))
     }

@@ -25,6 +25,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -36,6 +37,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -44,6 +46,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import junkeritechnepal.nicasiacmp.app.router.Router
+import junkeritechnepal.nicasiacmp.modules.accounts.AccountPageScreen
 import junkeritechnepal.nicasiacmp.modules.camera.CameraScreen
 import junkeritechnepal.nicasiacmp.modules.dashboard.HomeScreen
 import junkeritechnepal.nicasiacmp.modules.designSystem.appColorPrimary
@@ -71,7 +74,7 @@ fun DashboardContainerScreen(router: Router) {
     ) { page ->
         val screen: @Composable () -> Unit = remember(page) {
             when (page) {
-                0 -> { { PageScreen("Left Screen", Color(0xFFBBDEFB)) } }
+                0 -> { { AccountPageScreen() } }
                 1 -> { { DashboardScreen(router) } }
                 2 -> { { CameraScreen() } }
                 else -> { { Text("Unknown pagee") } }
@@ -83,27 +86,13 @@ fun DashboardContainerScreen(router: Router) {
 }
 
 @Composable
-private fun PageScreen(label: String, color: Color) {
-    val scrollState = rememberScrollState()
-
-    Column(modifier = Modifier
-        .background(Color.Yellow)
-        .verticalScroll(scrollState)
-        .fillMaxWidth()
-    ) {
-        for (i in 1..200) {
-            Text(text = label, fontSize = 24.sp, color = Color.Black)
-        }
-    }
-}
-
-@Composable
 private fun DashboardScreen(
     router: Router
 ) {
     val bottomPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
     val finalBottomPadding = bottomPadding + 24.dp
     var selectedTab by remember { mutableIntStateOf(0) }
+    val menuViewModel by remember { mutableStateOf(MenuViewModel()) }
 
     val items = listOf("Home", "Search", "", "Profile", "More")
 
@@ -138,7 +127,7 @@ private fun DashboardScreen(
         ) { innerPadding ->
             Crossfade(targetState = selectedTab, animationSpec = tween(durationMillis = 400)) { currentTab ->
                 when (currentTab) {
-                    0 -> { HomeScreen() }
+                    0 -> { HomeScreen(menuViewModel) }
                     3 -> { SendMoneyContainerScreen(router) }
                     else -> { Text("Current tab $currentTab") }
                 }
@@ -172,7 +161,7 @@ private fun QRScanNavigationBarItem(index: Int, onClick: () -> Unit) {
         modifier = Modifier.size(56.dp) // Adjust size as needed
     ) {
         Icon(
-            Icons.Filled.Call,
+            Icons.Filled.PlayArrow,
             contentDescription = "Scan QR"
         )
     }
