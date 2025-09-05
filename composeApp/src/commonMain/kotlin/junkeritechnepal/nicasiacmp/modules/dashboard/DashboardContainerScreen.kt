@@ -77,7 +77,7 @@ fun DashboardContainerScreen(router: Router) {
                 0 -> { { AccountPageScreen() } }
                 1 -> { { DashboardScreen(router) } }
                 2 -> { { CameraScreen() } }
-                else -> { { Text("Unknown pagee") } }
+                else -> { { Text("Unknown page") } }
             }
         }
 
