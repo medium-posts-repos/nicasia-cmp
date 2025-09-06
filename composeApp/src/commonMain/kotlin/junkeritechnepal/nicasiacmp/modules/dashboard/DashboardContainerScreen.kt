@@ -49,6 +49,7 @@ import junkeritechnepal.nicasiacmp.app.router.Router
 import junkeritechnepal.nicasiacmp.modules.accounts.AccountPageScreen
 import junkeritechnepal.nicasiacmp.modules.camera.CameraScreen
 import junkeritechnepal.nicasiacmp.modules.dashboard.HomeScreen
+import junkeritechnepal.nicasiacmp.modules.dashboard.HomeScreen1
 import junkeritechnepal.nicasiacmp.modules.designSystem.appColorPrimary
 import junkeritechnepal.nicasiacmp.modules.menus.MenuViewModel
 import junkeritechnepal.nicasiacmp.modules.sendmoney.SendMoneyContainerScreen
@@ -92,7 +93,8 @@ private fun DashboardScreen(
     val bottomPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
     val finalBottomPadding = bottomPadding + 24.dp
     var selectedTab by remember { mutableIntStateOf(0) }
-    val menuViewModel by remember { mutableStateOf(MenuViewModel()) }
+//    val menuViewModel by remember { mutableStateOf(MenuViewModel()) }
+    val scrollState = rememberScrollState()
 
     val items = listOf("Home", "Search", "", "Profile", "More")
 
@@ -113,7 +115,7 @@ private fun DashboardScreen(
                             icon = {
                                 when(index) {
                                     0 -> { Icon(Icons.Default.Home, contentDescription = label) }
-                                    1 -> {Icon(Icons.Default.ShoppingCart, contentDescription = label) }
+                                    1 -> { Icon(Icons.Default.ShoppingCart, contentDescription = label) }
                                     2 -> { QRScanNavigationBarItem(index) { selectedTab = index } }
                                     3 -> {Icon(Icons.Default.Person, contentDescription = label) }
                                     4 -> {Icon(Icons.Default.Person, contentDescription = label) }
@@ -125,13 +127,21 @@ private fun DashboardScreen(
                 }
             }
         ) { innerPadding ->
-            Crossfade(targetState = selectedTab, animationSpec = tween(durationMillis = 400)) { currentTab ->
-                when (currentTab) {
-                    0 -> { HomeScreen(menuViewModel) }
-                    3 -> { SendMoneyContainerScreen(router) }
-                    else -> { Text("Current tab $currentTab") }
-                }
+            println("Selected tab ${selectedTab}")
+            when (selectedTab) {
+//                    0 -> { HomeScreen(menuViewModel) }
+                0 -> { HomeScreen1(scrollState) }
+                3 -> { SendMoneyContainerScreen(router) }
+                else -> { Text("Current tab $selectedTab") }
             }
+//            Crossfade(targetState = selectedTab, animationSpec = tween(durationMillis = 400)) { currentTab ->
+//                when (currentTab) {
+////                    0 -> { HomeScreen(menuViewModel) }
+//                    0 -> { HomeScreen1() }
+//                    3 -> { SendMoneyContainerScreen(router) }
+//                    else -> { Text("Current tab $currentTab") }
+//                }
+//            }
         }
 
         Image(

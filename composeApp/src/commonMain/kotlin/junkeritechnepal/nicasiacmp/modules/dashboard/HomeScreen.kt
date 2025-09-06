@@ -1,5 +1,6 @@
 package junkeritechnepal.nicasiacmp.modules.dashboard
 
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -22,6 +23,7 @@ import junkeritechnepal.nicasiacmp.modules.cards.AppCardModule
 import junkeritechnepal.nicasiacmp.modules.menus.MenuResDto
 import junkeritechnepal.nicasiacmp.modules.menus.MenuSingleGridView
 import junkeritechnepal.nicasiacmp.modules.menus.MenuViewModel
+import junkeritechnepal.nicasiacmp.modules.menus.menuMockData
 import junkeritechnepal.nicasiacmp.modules.products.ProductViewModule
 
 @Composable
@@ -56,6 +58,27 @@ fun HomeScreen(menuViewModel: MenuViewModel) {
         MenuSingleGridView(title = "Payments", data = cachedMenu)
         MenuSingleGridView(title = "FonePayments", data = cachedMenu)
         MenuSingleGridView(title = "ECommerces", data = cachedMenu)
+
+        Spacer(modifier = Modifier.height(100.dp))
+    }
+}
+
+@Composable
+fun HomeScreen1(scrollState: ScrollState) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(18.dp, alignment = Alignment.Top),
+        horizontalAlignment = Alignment.Start,
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxWidth()
+            .verticalScroll(scrollState)
+    ) {
+        AppCardModule.DashboardCardView()
+        MenuSingleGridView(title = "Financial Services", data = menuMockData)
+        ProductViewModule.HorizontalPhotoScroller()
+        MenuSingleGridView(title = "Payments", data = menuMockData)
+        MenuSingleGridView(title = "FonePayments", data = menuMockData)
+        MenuSingleGridView(title = "ECommerces", data = menuMockData)
 
         Spacer(modifier = Modifier.height(100.dp))
     }
