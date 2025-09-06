@@ -9,4 +9,5 @@ val menuJsonString = """
 """
 
 
-val menuMockData: MenuResDto = Json { ignoreUnknownKeys = true }.decodeFromString(MenuResDto.serializer(), menuJsonString)
+val menuMockData: MenuResDto = Json { ignoreUnknownKeys = true }
+    .decodeFromString(MenuResDto.serializer(), menuJsonString)

@@ -65,6 +65,11 @@ fun HomeScreen(menuViewModel: MenuViewModel) {
 
 @Composable
 fun HomeScreen1(scrollState: ScrollState) {
+    val menuViewModel by remember { mutableStateOf(MenuViewModel()) }
+    LaunchedEffect(Unit) {
+        menuViewModel.fetchPublicMenus()
+    }
+
     Column(
         verticalArrangement = Arrangement.spacedBy(18.dp, alignment = Alignment.Top),
         horizontalAlignment = Alignment.Start,
@@ -77,9 +82,8 @@ fun HomeScreen1(scrollState: ScrollState) {
         MenuSingleGridView(title = "Financial Services", data = menuMockData)
         ProductViewModule.HorizontalPhotoScroller()
         MenuSingleGridView(title = "Payments", data = menuMockData)
-        MenuSingleGridView(title = "FonePayments", data = menuMockData)
-        MenuSingleGridView(title = "ECommerces", data = menuMockData)
-
+        MenuSingleGridView(title = "Fone Payments", data = menuMockData)
+        MenuSingleGridView(title = "ECommerces", data = menuViewModel.menuApiResState.collectAsState().value)
         Spacer(modifier = Modifier.height(100.dp))
     }
 }

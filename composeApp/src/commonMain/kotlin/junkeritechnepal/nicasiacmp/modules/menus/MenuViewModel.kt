@@ -11,6 +11,10 @@ import kotlinx.coroutines.flow.asStateFlow
 class MenuViewModel: BaseViewModel() {
     private val networkService by lazy { NetworkService.INSTANCE }
 
+    init {
+//        fetchPublicMenus()
+    }
+
     private val _menuApiResState = MutableStateFlow(MenuResDto())
     val menuApiResState = _menuApiResState.asStateFlow()
 
