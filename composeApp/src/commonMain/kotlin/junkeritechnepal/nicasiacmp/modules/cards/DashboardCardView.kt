@@ -30,34 +30,37 @@ import nicasia_cmp.composeapp.generated.resources.bg_account_card
 import nicasia_cmp.composeapp.generated.resources.card_design
 import org.jetbrains.compose.resources.painterResource
 
-@Composable
-fun DashboardCardView() {
-    Card(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = Color.Transparent)) {
-        Box {
+class AppCardModule {
+    companion object {
+        @Composable
+        fun DashboardCardView() {
+            Card(modifier = Modifier.fillMaxWidth(), colors = CardDefaults.cardColors(containerColor = Color.Transparent)) {
+                Box {
+                    Box {
+                        Image(
+                            modifier = Modifier.fillMaxSize(),
+                            painter = painterResource(Res.drawable.bg_account_card),
+                            contentScale = ContentScale.Crop,
+                            contentDescription = ""
+                        )
+                    }
 
-            Box {
-                Image(
-                    modifier = Modifier.fillMaxSize(),
-                    painter = painterResource(Res.drawable.bg_account_card),
-                    contentScale = ContentScale.Crop,
-                    contentDescription = ""
-                )
-            }
+                    Box {
+                        Row(modifier = Modifier.padding(12.dp)) {
+                            Column {
+                                Text("Good Morning", style = AppTextStyle.smallLight(fontWeight = FontWeight.Bold))
+                                Text("SWORNIM BIKRAM SHAH", style = AppTextStyle.smallLight(fontWeight = FontWeight.Normal))
 
-            Box {
-                Row(modifier = Modifier.padding(12.dp)) {
-                    Column {
-                        Text("Good Morning", style = AppTextStyle.smallLight(fontWeight = FontWeight.Bold))
-                        Text("SWORNIM BIKRAM SHAH", style = AppTextStyle.smallLight(fontWeight = FontWeight.Normal))
-
-                        Spacer(modifier = Modifier.height(16.dp))
-                        Text("CHAMATKARIK SHAREHOLDER", style = AppTextStyle.bodyLight(fontWeight = FontWeight.Medium))
-                        Text("SAVING ACCOUNT", style = AppTextStyle.bodyLight(fontWeight = FontWeight.Medium))
-                        Text("XXXXXX.XX", style = AppTextStyle.bodyLight(fontWeight = FontWeight.Medium))
-                        Spacer(modifier = Modifier.height(16.dp))
-                        Row(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
-                            Text("XXX.XX", style = AppTextStyle.bodyLight(fontWeight = FontWeight.Bold))
-                            Icon(Icons.Outlined.AccountBox, contentDescription = "", modifier = Modifier.height(12.dp).width(12.dp))
+                                Spacer(modifier = Modifier.height(16.dp))
+                                Text("CHAMATKARIK SHAREHOLDER", style = AppTextStyle.bodyLight(fontWeight = FontWeight.Medium))
+                                Text("SAVING ACCOUNT", style = AppTextStyle.bodyLight(fontWeight = FontWeight.Medium))
+                                Text("XXXXXX.XX", style = AppTextStyle.bodyLight(fontWeight = FontWeight.Medium))
+                                Spacer(modifier = Modifier.height(16.dp))
+                                Row(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
+                                    Text("XXX.XX", style = AppTextStyle.bodyLight(fontWeight = FontWeight.Bold))
+                                    Icon(Icons.Outlined.AccountBox, contentDescription = "", modifier = Modifier.height(12.dp).width(12.dp))
+                                }
+                            }
                         }
                     }
                 }

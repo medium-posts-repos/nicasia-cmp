@@ -52,7 +52,7 @@ fun HorizontalGridBox(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalAlignment = Alignment.Start
     ) {
-        Text(title, style = AppTextStyle.bodyNormalDark)
+        if(title.isNotBlank()) Text(title, style = AppTextStyle.boldDark())
         columns.forEach { rowItems ->
             Row(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
