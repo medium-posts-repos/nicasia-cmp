@@ -86,14 +86,28 @@ object AppTextStyle {
             color = Color.White
         )
     }
-    fun boldDark(fontSize: TextUnit = 14.sp): TextStyle {
+    fun boldNormalDark(fontSize: TextUnit = 15.sp): TextStyle {
         return TextStyle(
             fontSize = fontSize,
             fontWeight = FontWeight.Bold,
             color = textColorDark
         )
     }
-    fun textNormalDim(fontSize: TextUnit = 12.sp, weight: FontWeight = FontWeight.Normal): TextStyle {
+    fun boldDark(fontSize: TextUnit = 15.sp): TextStyle {
+        return TextStyle(
+            fontSize = fontSize,
+            fontWeight = FontWeight.Bold,
+            color = textColorDark
+        )
+    }
+    fun textNormalDim(fontSize: TextUnit = 13.sp, weight: FontWeight = FontWeight.Normal): TextStyle {
+        return TextStyle(
+            fontSize = fontSize,
+            fontWeight = weight,
+            color = textColorMedium
+        )
+    }
+    fun textNormal15Dim(fontSize: TextUnit = 15.sp, weight: FontWeight = FontWeight.Normal): TextStyle {
         return TextStyle(
             fontSize = fontSize,
             fontWeight = weight,
@@ -107,6 +121,21 @@ object AppTextStyle {
             color = textColorPrimary
         )
     }
+
+    fun large24(fontWeight: FontWeight = FontWeight.Bold): TextStyle {
+        return TextStyle(
+            fontSize = 24.sp,
+            fontWeight = fontWeight,
+            color = textColorDark
+        )
+    }
+    fun largerH5(fontWeight: FontWeight = FontWeight.Bold): TextStyle {
+        return TextStyle(
+            fontSize = 20.sp,
+            fontWeight = fontWeight,
+            color = textColorDark
+        )
+    }
 }
 
 @Preview
@@ -114,12 +143,12 @@ object AppTextStyle {
 fun DesignSystemScreen() {
     Scaffold {
         Column {
-            Text("Title Large", style = AppTypography.titleLarge)
-            Text("Title Medium", style = AppTypography.titleMedium)
-            Text("Body Large", style = AppTypography.bodyLarge)
-            Text("Body Medium", style = AppTypography.bodyMedium)
-            Text("Label Small", style = AppTypography.labelSmall)
-            Text("Label Small Dark", style = AppTypography.labelSmall.copy(color = textColorDark))
+            Text("Title Large", style = AppTextStyle.largeDark())
+            Text("Title Medium", style = AppTextStyle.textNormalDim())
+            Text("Title Small", style = AppTextStyle.smallLight())
+            Text("Body Normal Dark", style = AppTextStyle.bodyNormalDark)
+            Text("Body Light", style = AppTextStyle.bodyLight())
+            Text("Bold Light", style = AppTextStyle.boldLight())
         }
     }
 }

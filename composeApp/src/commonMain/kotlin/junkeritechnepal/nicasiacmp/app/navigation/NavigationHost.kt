@@ -13,6 +13,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -41,12 +42,19 @@ val LocalNavController = compositionLocalOf<NavHostController> {
     error("NavController not provided")
 }
 
+val LocalRouter = compositionLocalOf<Router> {
+    error("Router not provided")
+}
+
 @Composable
 fun AppNavigationHost() {
     val navController = rememberNavController()
-    val router = Router(navController)
+    val router = remember { Router(navController) }
 
-    CompositionLocalProvider(LocalNavController provides navController) {
+    CompositionLocalProvider(
+        LocalNavController provides navController,
+        LocalRouter provides router
+    ) {
         NavHost(
             navController = navController,
             startDestination = PrivateRouteIntent(code = NavigationRoutes.LOGIN_ROUTE.name),
@@ -78,12 +86,12 @@ fun AppNavigationHost() {
 //                )
 //            }
         ) {
-            setupNonProtectedRoutes(router)
+            setupNonProtectedRoutes()
         }
     }
 }
 
-fun NavGraphBuilder.setupNonProtectedRoutes(router: Router) {
+fun NavGraphBuilder.setupNonProtectedRoutes() {
     composable<PrivateRouteIntent> {
         val intent = it.toRoute<PrivateRouteIntent>()
         when(intent.code) {
@@ -94,16 +102,16 @@ fun NavGraphBuilder.setupNonProtectedRoutes(router: Router) {
                 LoginSecondaryScreen()
             }
             NavigationRoutes.DASHBOARD_ROUTE.name -> {
-                DashboardContainerScreen(router)
+                DashboardContainerScreen()
             }
             NavigationRoutes.DESIGN_SYSTEM.name -> {
                 DesignSystemScreen()
             }
             NavigationRoutes.SMS.name -> {
-                SmsScreen(router)
+                SmsScreen()
             }
             NavigationRoutes.SUBMENUS_ROUTE.name -> {
-                MenuViews.MenuCardListScreen(router, intent)
+                MenuViews.MenuCardListScreen(intent)
             }
             NavigationRoutes.MENU_ROUTE.name -> {
                 DynamicFormScreen(FormViewModel(), intent)

@@ -34,6 +34,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import junkeritechnepal.nicasiacmp.app.navigation.LocalNavController
+import junkeritechnepal.nicasiacmp.app.navigation.LocalRouter
 import junkeritechnepal.nicasiacmp.app.navigation.NavigationRoutes
 import junkeritechnepal.nicasiacmp.app.navigation.toRoute
 import junkeritechnepal.nicasiacmp.app.router.Router
@@ -50,7 +51,9 @@ import toJsonString
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SmsScreen(router: Router) {
+fun SmsScreen() {
+    val router = LocalRouter.current
+
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     val items = listOf(
         Triple("General Inquiry", Res.drawable.nicasisa, MenuDataSource.paymentSubMenus),

@@ -38,11 +38,6 @@ import junkeritechnepal.nicasiacmp.modules.menus.menuMockData
 @Composable
 fun AccountPageScreen() {
     val scrollState = rememberScrollState()
-//    val menuViewModel by remember { mutableStateOf(MenuViewModel()) }
-//
-//    LaunchedEffect(Unit) {
-//        menuViewModel.fetchPublicMenus()
-//    }
 
     Box(
         modifier = Modifier.padding(

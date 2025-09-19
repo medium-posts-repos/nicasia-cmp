@@ -30,11 +30,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import junkeritechnepal.nicasiacmp.app.navigation.LocalRouter
 import junkeritechnepal.nicasiacmp.app.navigation.NavigationRoutes
 import junkeritechnepal.nicasiacmp.app.navigation.PrivateRouteIntent
 import junkeritechnepal.nicasiacmp.app.navigation.toRoute
 import junkeritechnepal.nicasiacmp.app.router.Router
 import junkeritechnepal.nicasiacmp.modules.designSystem.AppTextStyle
+import junkeritechnepal.nicasiacmp.modules.designSystem.AppTextStyle.boldNormalDark
 import junkeritechnepal.nicasiacmp.modules.designSystem.backgroundColor
 import nicasia_cmp.composeapp.generated.resources.Res
 import nicasia_cmp.composeapp.generated.resources.nicasisa
@@ -69,14 +71,15 @@ object MenuViews {
     @Composable
     fun NormalIconTitleDescCardView(item: MenuItemDto, modifier: Modifier) {
         Card(modifier = modifier, colors = CardDefaults.cardColors(containerColor = Color.White)) {
-            Row(horizontalArrangement = Arrangement.spacedBy(12.dp, alignment = Alignment.Start), modifier = Modifier.padding(12.dp).fillMaxWidth()) {
+            Row(horizontalArrangement = Arrangement.spacedBy(12.dp, alignment = Alignment.Start),
+                modifier = Modifier.padding(12.dp).padding(vertical = 6.dp).fillMaxWidth()) {
                 Image(
                     painter = painterResource(Res.drawable.nicasisa),
                     contentDescription = "",
-                    modifier = Modifier.size(26.dp)
+                    modifier = Modifier.size(28.dp)
                 )
-                Column(horizontalAlignment = Alignment.Start, verticalArrangement = Arrangement.spacedBy(3.dp)) {
-                    Text(item.name ?: "", style = AppTextStyle.boldDark(fontSize = 12.sp))
+                Column(horizontalAlignment = Alignment.Start, verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                    Text(item.name ?: "", style = boldNormalDark())
                     Text(item.desc ?: "", style = AppTextStyle.textNormalDim())
                 }
                 Spacer(Modifier.weight(1f))
@@ -86,7 +89,9 @@ object MenuViews {
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    fun MenuCardListScreen(router: Router, intent: PrivateRouteIntent?) {
+    fun MenuCardListScreen(intent: PrivateRouteIntent?) {
+        val router = LocalRouter.current
+
         Scaffold { padding ->
             val dataSource = intent?.extras?.toObject<MenuItemDto>()?.subMenus ?: listOf()
 
