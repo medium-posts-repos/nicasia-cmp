@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredHeight
+import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -17,6 +19,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import io.kamel.image.KamelImage
@@ -28,6 +32,10 @@ import junkeritechnepal.nicasiacmp.app.router.Router
 import junkeritechnepal.nicasiacmp.modules.designSystem.AppTextStyle
 import junkeritechnepal.nicasiacmp.modules.designSystem.AppTypography
 import toJsonString
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalDensity
+import junkeritechnepal.nicasiacmp.infrastructure.utils.deviceWidth
+import nicasia_cmp.composeapp.generated.resources.Res
 
 @Composable
 fun MenuSingleGridView(title: String = "Top Services", data: MenuResDto) {
@@ -43,6 +51,8 @@ fun HorizontalGridBox(
     val columns: List<List<MenuItemDto>> = remember(items, rowsPerColumn) {
         items.chunked(rowsPerColumn)
     }
+
+    val eachRowWidth = ((deviceWidth().dp - 32.dp)/4.dp).dp
 
     val router = Router(navigator = LocalNavController.current)
 
@@ -61,8 +71,8 @@ fun HorizontalGridBox(
                 rowItems.forEach { item ->
                     Box(
                         modifier = Modifier
-                            .height(80.dp)
-                            .width(80.dp)
+                            .height(eachRowWidth)
+                            .weight(1f)
                             .background(Color.White, shape = RoundedCornerShape(8.dp))
                             .clickable {
                                 router.route(NavigationRoutes.MENU_ROUTE.toRoute(item.toJsonString()))
