@@ -85,7 +85,6 @@ private fun DashboardScreen(
 ) {
     val bottomPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
     val finalBottomPadding = bottomPadding + 24.dp
-    val scrollState = rememberScrollState()
 
     val items = listOf("Home", "Payments", "", "Transfers", "Profile")
 
@@ -99,6 +98,26 @@ private fun DashboardScreen(
             bottomBar = {
                 NavigationBar(containerColor = Color.White) {
                     items.forEachIndexed { index, label ->
+                        NavigationBarItem(
+                            colors = NavigationBarItemDefaults.colors(indicatorColor = Color.Transparent),
+                            selected = selectedTab == index,
+                            onClick = { onTabSelected(index) },
+                            icon = {
+                                Icon(Icons.Outlined.Home, contentDescription = label)
+                            },
+                            label = { Text(label, fontSize = 12.sp) }
+                        )
+
+                        NavigationBarItem(
+                            colors = NavigationBarItemDefaults.colors(indicatorColor = Color.Transparent),
+                            selected = selectedTab == index,
+                            onClick = { onTabSelected(index) },
+                            icon = {
+                                Icon(Icons.Outlined.ShoppingCart, contentDescription = label)
+                            },
+                            label = { Text(label, fontSize = 12.sp) }
+                        )
+
                         NavigationBarItem(
                             colors = NavigationBarItemDefaults.colors(indicatorColor = Color.Transparent),
                             selected = selectedTab == index,
@@ -119,7 +138,7 @@ private fun DashboardScreen(
             }
         ) { innerPadding ->
             when (selectedTab) {
-                0 -> { HomeScreen1(scrollState) }
+                0 -> { HomeScreen1() }
                 3 -> { SendMoneyContainerScreen(router) }
                 4 -> { ProfileContainerScreen() }
                 else -> { Text("Current tab $selectedTab") }

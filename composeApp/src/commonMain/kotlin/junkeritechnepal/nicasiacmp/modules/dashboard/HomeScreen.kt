@@ -19,6 +19,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import junkeritechnepal.nicasiacmp.modules.cards.AppCardModule
 import junkeritechnepal.nicasiacmp.modules.menus.MenuResDto
 import junkeritechnepal.nicasiacmp.modules.menus.MenuSingleGridView
@@ -33,7 +34,7 @@ fun HomeScreen(menuViewModel: MenuViewModel) {
     val scrollState = rememberScrollState()
 
     // Fetch data once
-    LaunchedEffect(Unit) {
+    LaunchedEffect(menuViewModel.menuApiResState) {
         menuViewModel.fetchPublicMenus()
     }
 
@@ -64,10 +65,15 @@ fun HomeScreen(menuViewModel: MenuViewModel) {
 }
 
 @Composable
-fun HomeScreen1(scrollState: ScrollState) {
-    val menuViewModel by remember { mutableStateOf(MenuViewModel()) }
+fun HomeScreen1() {
+    val scrollState = rememberScrollState()
+
+    val menuViewModel: MenuViewModel = viewModel()
+
     LaunchedEffect(Unit) {
-        menuViewModel.fetchPublicMenus()
+//        println("HomeScreen1 LaunchedEffect ${menuViewModel.menuApiResState.value}")
+//        if(menuViewModel.menuApiResState.value.data == null)
+            menuViewModel.fetchPublicMenus()
     }
 
     Column(
