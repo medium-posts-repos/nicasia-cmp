@@ -4,6 +4,7 @@ import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -69,11 +70,10 @@ fun HomeScreen1() {
     val scrollState = rememberScrollState()
 
     val menuViewModel: MenuViewModel = viewModel()
+    val menuState by menuViewModel.menuApiResState.collectAsState()
 
-    LaunchedEffect(Unit) {
-//        println("HomeScreen1 LaunchedEffect ${menuViewModel.menuApiResState.value}")
-//        if(menuViewModel.menuApiResState.value.data == null)
-            menuViewModel.fetchPublicMenus()
+    LaunchedEffect(menuState) {
+        menuViewModel.fetchPublicMenus()
     }
 
     Column(
@@ -89,7 +89,7 @@ fun HomeScreen1() {
         ProductViewModule.HorizontalPhotoScroller()
         MenuSingleGridView(title = "Payments", data = menuMockData)
         MenuSingleGridView(title = "Fone Payments", data = menuMockData)
-        MenuSingleGridView(title = "ECommerces", data = menuViewModel.menuApiResState.collectAsState().value)
+        MenuSingleGridView(title = "ECommerces", data = menuState)
         Spacer(modifier = Modifier.height(100.dp))
     }
 }

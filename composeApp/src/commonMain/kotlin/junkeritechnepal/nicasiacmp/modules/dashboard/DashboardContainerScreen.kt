@@ -98,25 +98,6 @@ private fun DashboardScreen(
             bottomBar = {
                 NavigationBar(containerColor = Color.White) {
                     items.forEachIndexed { index, label ->
-                        NavigationBarItem(
-                            colors = NavigationBarItemDefaults.colors(indicatorColor = Color.Transparent),
-                            selected = selectedTab == index,
-                            onClick = { onTabSelected(index) },
-                            icon = {
-                                Icon(Icons.Outlined.Home, contentDescription = label)
-                            },
-                            label = { Text(label, fontSize = 12.sp) }
-                        )
-
-                        NavigationBarItem(
-                            colors = NavigationBarItemDefaults.colors(indicatorColor = Color.Transparent),
-                            selected = selectedTab == index,
-                            onClick = { onTabSelected(index) },
-                            icon = {
-                                Icon(Icons.Outlined.ShoppingCart, contentDescription = label)
-                            },
-                            label = { Text(label, fontSize = 12.sp) }
-                        )
 
                         NavigationBarItem(
                             colors = NavigationBarItemDefaults.colors(indicatorColor = Color.Transparent),
