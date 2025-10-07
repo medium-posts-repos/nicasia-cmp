@@ -53,8 +53,6 @@ fun DashboardContainerScreen() {
         pageCount = { 3 }
     )
 
-    // Lift selectedTab and scrollState up so they persist across recompositions
-
     println("DashboardContainerScreen recomposed with selectedTab: ")
 
     var selectedTab by remember { mutableIntStateOf(0) }
@@ -83,16 +81,13 @@ private fun DashboardScreen(
     selectedTab: Int,
     onTabSelected: (Int) -> Unit,
 ) {
-    val bottomPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
-    val finalBottomPadding = bottomPadding + 24.dp
-
     val items = listOf("Home", "Payments", "", "Transfers", "Profile")
-
     Box(modifier = Modifier.fillMaxSize().padding(
         WindowInsets.systemBars.only(
             WindowInsetsSides.Top + WindowInsetsSides.Horizontal
         ).asPaddingValues()
     )) {
+        ->
         Scaffold(
             containerColor = Color(0xfffafafa),
             bottomBar = {
@@ -135,9 +130,6 @@ private fun QRScanNavigationBarItem(index: Int, onClick: () -> Unit) {
         contentColor = Color.White,
         onClick = onClick,
         shape = CircleShape,
-        // Optional: Customize FAB appearance
-        // containerColor = MaterialTheme.colorScheme.secondaryContainer,
-        // contentColor = MaterialTheme.colorScheme.secondary,
         modifier = Modifier.size(56.dp) // Adjust size as needed
     ) {
         Icon(
