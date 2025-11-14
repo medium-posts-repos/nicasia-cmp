@@ -38,11 +38,19 @@ class LoginViewModel: ViewModel() {
 object LoginViewModelExt {
     fun LoginViewModel.fetchCountrySheet() {
         viewModelScope.launch {
+            if (countrySheetState.value.data.isNotEmpty()) {
+                _countrySheetState.value = countrySheetState.value
+                return@launch
+            }
+
             val result = networkService.getRequest<List<LoginCountryResDto>>(routeCode = NetworkConstants.FETCH_COUNTRY_JSON)
-            _countrySheetState.value = countrySheetState.value.copy(result, true)
+            _countrySheetState.value = countrySheetState.value.copy(data = result, isVisible = true)
         }
     }
     fun LoginViewModel.dismissCountrySheet() {
-        _countrySheetState.value = countrySheetState.value.copy(emptyList(),false)
+        _countrySheetState.value = countrySheetState.value.copy(
+            data = emptyList(),
+            isVisible = false
+        )
     }
 }

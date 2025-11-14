@@ -9,12 +9,16 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Home
@@ -68,6 +72,7 @@ import junkeritechnepal.nicasiacmp.modules.login.LoginViewModel
 import junkeritechnepal.nicasiacmp.modules.login.LoginViewModelExt.dismissCountrySheet
 import junkeritechnepal.nicasiacmp.modules.login.LoginViewModelExt.fetchCountrySheet
 import junkeritechnepal.nicasiacmp.modules.menus.MenuViews
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import nicasia_cmp.composeapp.generated.resources.Res
 import nicasia_cmp.composeapp.generated.resources.bank_logo
@@ -205,8 +210,10 @@ private fun InputMobileNumberView(loginViewModel: LoginViewModel) {
     var countryLeadingState by remember { mutableStateOf("\uD83C\uDDF3\uD83C\uDDF5 NP") }
     val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val countrySheetState = loginViewModel.countrySheetState.collectAsState()
-
-    val onItemClick: (item: LoginCountryResDto) -> Unit  = { countryLeadingState = "${it.emoji} ${it.code}" }
+    val onItemClick: (item: LoginCountryResDto) -> Unit  = {
+        countryLeadingState = "${it.emoji} ${it.code}"
+        loginViewModel.dismissCountrySheet()
+    }
 
     TextField(
         value = userNumber,
@@ -214,11 +221,15 @@ private fun InputMobileNumberView(loginViewModel: LoginViewModel) {
         placeholder = { Text("Mobile Number") },
         singleLine = true,
         leadingIcon = {
-            IconButton(onClick = {
-                loginViewModel.fetchCountrySheet()
-
-            }) {
-                Text(countryLeadingState)
+            Row(
+                modifier = Modifier.padding(start = 8.dp, end = 8.dp).clickable {
+                    loginViewModel.fetchCountrySheet()
+                },
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    countryLeadingState,
+                )
             }
         },
         modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 4.dp)
@@ -232,13 +243,12 @@ private fun InputMobileNumberView(loginViewModel: LoginViewModel) {
     )
 
     if(countrySheetState.value.isVisible) {
-        println("showCountrySheet..")
         ModalBottomSheet(
             shape = RoundedCornerShape(14.dp),
             onDismissRequest = { loginViewModel.dismissCountrySheet() },
             sheetState = bottomSheetState
         ) {
-            Column(modifier = Modifier.padding(16.dp)) {
+            Column(modifier = Modifier.padding(16.dp).fillMaxHeight().verticalScroll(rememberScrollState())) {
                 Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)) {
                     Text("Choose a country", fontSize = 16.sp, fontStyle = FontStyle.Normal)
                     Image(imageVector = Icons.Outlined.Close, "", modifier = Modifier.clickable {
@@ -246,8 +256,10 @@ private fun InputMobileNumberView(loginViewModel: LoginViewModel) {
                     })
                 }
                 loginViewModel.countrySheetState.value.data.forEach {
-                    Row(horizontalArrangement = Arrangement.spacedBy(4.dp), modifier = Modifier.padding(vertical = 4.dp).clickable { onItemClick(it) } ) {
-                        Text("${it.emoji} ${it.name} ")
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(4.dp),
+                        modifier = Modifier.padding(vertical = 4.dp).clickable { onItemClick(it) } ) {
+                            Text("${it.emoji} ${it.name} ")
                     }
                 }
             }
