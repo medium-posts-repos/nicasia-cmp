@@ -2,7 +2,6 @@ package junkeritechnepal.nicasiacmp.modules.menus
 
 import androidx.lifecycle.viewModelScope
 import junkeritechnepal.nicasiacmp.data.base.BaseViewModel
-import junkeritechnepal.nicasiacmp.infrastructure.network.NetworkConstants
 import junkeritechnepal.nicasiacmp.infrastructure.network.NetworkService
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,6 +21,7 @@ class MenuViewModel: BaseViewModel() {
 
         _menuApiResState.value.apply {
             if (data?.isNotEmpty() == true ) {
+                println("Going to fetchPublicMenus cache...")
                 _menuApiResState.value = this
                 return
             }

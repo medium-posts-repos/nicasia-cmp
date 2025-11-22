@@ -17,26 +17,20 @@ import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import junkeritechnepal.nicasiacmp.app.router.Router
 import junkeritechnepal.nicasiacmp.modules.accounts.views.AccountView
 import junkeritechnepal.nicasiacmp.modules.cards.AppCardModule
-import junkeritechnepal.nicasiacmp.modules.designSystem.backgroundColor
 import junkeritechnepal.nicasiacmp.modules.menus.CardNormalIconDescArrowView
 import junkeritechnepal.nicasiacmp.modules.menus.MenuSingleGridView
-import junkeritechnepal.nicasiacmp.modules.menus.MenuViewModel
 import junkeritechnepal.nicasiacmp.modules.menus.MenuViews
 import junkeritechnepal.nicasiacmp.modules.menus.menuMockData
 
 @Composable
-fun AccountPageScreen() {
+fun AccountPageScreen(router: Router) {
     val scrollState = rememberScrollState()
 
     Box(
@@ -58,7 +52,7 @@ fun AccountPageScreen() {
             AccountView.AccountImageDescView()
             Spacer(modifier = Modifier.height(12.dp))
             AppCardModule.DashboardCardView()
-            MenuSingleGridView(title = "", data = menuMockData)
+            MenuSingleGridView(router, title = "", data = menuMockData)
             MenuViews.CardNormalIconDescArrowView()
             MenuViews.CardNormalIconDescArrowView()
         }

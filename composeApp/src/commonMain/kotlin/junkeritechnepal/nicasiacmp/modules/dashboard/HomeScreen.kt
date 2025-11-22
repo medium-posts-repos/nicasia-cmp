@@ -4,7 +4,6 @@ import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -21,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import junkeritechnepal.nicasiacmp.app.router.Router
 import junkeritechnepal.nicasiacmp.modules.cards.AppCardModule
 import junkeritechnepal.nicasiacmp.modules.menus.MenuResDto
 import junkeritechnepal.nicasiacmp.modules.menus.MenuSingleGridView
@@ -55,19 +55,19 @@ fun HomeScreen(menuViewModel: MenuViewModel) {
             .verticalScroll(scrollState)
     ) {
         AppCardModule.DashboardCardView()
-        MenuSingleGridView(title = "Financial Services", data = cachedMenu)
-        ProductViewModule.HorizontalPhotoScroller()
-        MenuSingleGridView(title = "Payments", data = cachedMenu)
-        MenuSingleGridView(title = "FonePayments", data = cachedMenu)
-        MenuSingleGridView(title = "ECommerces", data = cachedMenu)
+//        MenuSingleGridView(title = "Financial Services", data = cachedMenu)
+//        ProductViewModule.HorizontalPhotoScroller()
+//        MenuSingleGridView(title = "Payments", data = cachedMenu)
+//        MenuSingleGridView(title = "FonePayments", data = cachedMenu)
+//        MenuSingleGridView(title = "ECommerces", data = cachedMenu)
 
         Spacer(modifier = Modifier.height(100.dp))
     }
 }
 
 @Composable
-fun HomeScreen1() {
-    val scrollState = rememberScrollState()
+fun HomeScreen1(router: Router, scrollState: ScrollState) {
+    print("Composing HomeScreen1")
 
     val menuViewModel: MenuViewModel = viewModel()
     val menuState by menuViewModel.menuApiResState.collectAsState()
@@ -85,11 +85,11 @@ fun HomeScreen1() {
             .verticalScroll(scrollState)
     ) {
         AppCardModule.DashboardCardView()
-        MenuSingleGridView(title = "Financial Services", data = menuMockData)
+        MenuSingleGridView(router, title = "Financial Services", data = menuMockData)
         ProductViewModule.HorizontalPhotoScroller()
-        MenuSingleGridView(title = "Payments", data = menuMockData)
-        MenuSingleGridView(title = "Fone Payments", data = menuMockData)
-        MenuSingleGridView(title = "ECommerces", data = menuState)
+        MenuSingleGridView(router, title = "Payments", data = menuMockData)
+        MenuSingleGridView(router, title = "Fone Payments", data = menuMockData)
+        MenuSingleGridView(router, title = "ECommerces", data = menuState)
         Spacer(modifier = Modifier.height(100.dp))
     }
 }

@@ -1,9 +1,9 @@
+
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -27,15 +27,11 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import junkeritechnepal.nicasiacmp.app.navigation.LocalRouter
 import junkeritechnepal.nicasiacmp.app.router.Router
 import junkeritechnepal.nicasiacmp.modules.accounts.AccountPageScreen
 import junkeritechnepal.nicasiacmp.modules.camera.CameraScreen
@@ -43,51 +39,45 @@ import junkeritechnepal.nicasiacmp.modules.dashboard.HomeScreen1
 import junkeritechnepal.nicasiacmp.modules.designSystem.appColorPrimary
 import junkeritechnepal.nicasiacmp.modules.profile.ProfileScreenModule.ProfileContainerScreen
 import junkeritechnepal.nicasiacmp.modules.sendmoney.SendMoneyContainerScreen
+import kotlinx.coroutines.launch
 
 @Composable
-fun DashboardContainerScreen() {
-    val router = LocalRouter.current
+fun DashboardContainerScreen(router: Router) {
 
     val pagerState = rememberPagerState(
         initialPage = 1, // Start with middle screen
         pageCount = { 3 }
     )
 
-    println("DashboardContainerScreen recomposed with selectedTab: ")
-
-    var selectedTab by remember { mutableIntStateOf(0) }
-
     HorizontalPager(
         state = pagerState,
         pageSize = PageSize.Fill,
         modifier = Modifier.fillMaxSize()
     ) { page ->
-        val screen: @Composable () -> Unit = remember(page) {
-            when (page) {
-                0 -> { { AccountPageScreen() } }
-                1 -> { { DashboardScreen(router, selectedTab) { selectedTab = it } } }
-                2 -> { { CameraScreen() } }
-                else -> { { Text("Unknown page") } }
-            }
+        when (page) {
+            0 -> AccountPageScreen(router)
+            1 -> DashboardScreen(router)
+            2 -> CameraScreen()
+            else -> Text("Unknown page")
         }
-
-        screen() // Call the selected screen composable
     }
 }
 
 @Composable
 private fun DashboardScreen(
-    router: Router,
-    selectedTab: Int,
-    onTabSelected: (Int) -> Unit,
+    router: Router
 ) {
     val items = listOf("Home", "Payments", "", "Transfers", "Profile")
+
+    val pagerState = rememberPagerState(pageCount = { items.size })
+    val scope = rememberCoroutineScope()
+    val scrollState = rememberScrollState()
+
     Box(modifier = Modifier.fillMaxSize().padding(
         WindowInsets.systemBars.only(
             WindowInsetsSides.Top + WindowInsetsSides.Horizontal
         ).asPaddingValues()
     )) {
-        ->
         Scaffold(
             containerColor = Color(0xfffafafa),
             bottomBar = {
@@ -96,13 +86,21 @@ private fun DashboardScreen(
 
                         NavigationBarItem(
                             colors = NavigationBarItemDefaults.colors(indicatorColor = Color.Transparent),
-                            selected = selectedTab == index,
-                            onClick = { onTabSelected(index) },
+                            selected = pagerState.currentPage == index,
+                            onClick = {
+                                scope.launch {
+                                    pagerState.animateScrollToPage(index)
+                                }
+                            },
                             icon = {
                                 when(index) {
                                     0 -> { Icon(Icons.Outlined.Home, contentDescription = label) }
                                     1 -> { Icon(Icons.Outlined.ShoppingCart, contentDescription = label) }
-                                    2 -> { QRScanNavigationBarItem(index) { onTabSelected(index) } }
+                                    2 -> { QRScanNavigationBarItem {
+                                        scope.launch {
+                                            pagerState.animateScrollToPage(index)
+                                        }
+                                    } }
                                     3 -> {Icon(Icons.Outlined.Send, contentDescription = label) }
                                     4 -> {Icon(Icons.Outlined.Person, contentDescription = label) }
                                 }
@@ -113,18 +111,20 @@ private fun DashboardScreen(
                 }
             }
         ) { innerPadding ->
-            when (selectedTab) {
-                0 -> { HomeScreen1() }
-                3 -> { SendMoneyContainerScreen(router) }
-                4 -> { ProfileContainerScreen() }
-                else -> { Text("Current tab $selectedTab") }
+            HorizontalPager(state = pagerState, modifier = Modifier.padding(innerPadding)) { page ->
+                when (page) {
+                    0 -> { HomeScreen1(router, scrollState) }
+                    3 -> { SendMoneyContainerScreen(router) }
+                    4 -> { ProfileContainerScreen() }
+                    else -> { Text("Current tab $page") }
+                }
             }
         }
     }
 }
 
 @Composable
-private fun QRScanNavigationBarItem(index: Int, onClick: () -> Unit) {
+private fun QRScanNavigationBarItem(onClick: () -> Unit) {
     FloatingActionButton(
         containerColor = appColorPrimary,
         contentColor = Color.White,

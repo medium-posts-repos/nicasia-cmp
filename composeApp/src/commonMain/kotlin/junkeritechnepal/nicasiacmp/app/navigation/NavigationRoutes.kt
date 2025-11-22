@@ -1,5 +1,6 @@
 package junkeritechnepal.nicasiacmp.app.navigation
 
+import androidx.compose.runtime.Immutable
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import junkeritechnepal.nicasiacmp.modules.menus.MenuItemDto
@@ -7,12 +8,12 @@ import kotlinx.serialization.Serializable
 
 val defaultExtrasArgument = listOf(navArgument("menuItemDto") { type = NavType.StringType })
 
-@Serializable
+@Serializable @Immutable
 data class RouteExtras(
     val menuItemDto: MenuItemDto? = null
 )
 
-@Serializable
+@Serializable @Immutable
 enum class NavigationRoutes {
     LOGIN_ROUTE,
     LOGIN_SECONDARY_ROUTE,
@@ -34,5 +35,5 @@ fun NavigationRoutes.toRoute(extras: String? = null): PrivateRouteIntent {
 }
 
 
-@Serializable
+@Serializable @Immutable
 data class PrivateRouteIntent(val title: String? = null, val code: String? = null, val extras: String? = null)

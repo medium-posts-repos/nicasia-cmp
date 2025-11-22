@@ -1,4 +1,4 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -57,6 +57,11 @@ kotlin {
             implementation(libs.kamel.image.default)
             implementation(libs.lifecycle.viewmodel.compose)
 
+//            implementation(libs.androidx.navigation3.ui)
+//            implementation(libs.androidx.navigation3.runtime)
+//            implementation(libs.androidx.lifecycle.viewmodel.navigation3)
+
+            // Check for the latest stable version
             api(libs.koin.core) // or newer
             implementation(libs.koin.compose) // or newer
         }

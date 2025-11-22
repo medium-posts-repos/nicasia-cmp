@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import junkeritechnepal.nicasiacmp.data.GenericUIState
 import junkeritechnepal.nicasiacmp.infrastructure.network.NetworkConstants
 import junkeritechnepal.nicasiacmp.infrastructure.network.NetworkService
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
