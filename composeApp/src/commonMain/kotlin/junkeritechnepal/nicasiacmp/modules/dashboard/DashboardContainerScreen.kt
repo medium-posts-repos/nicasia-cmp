@@ -32,7 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import junkeritechnepal.nicasiacmp.app.router.Router
+import junkeritechnepal.nicasiacmp.app.navigation.AppStackNavigatorProvider
 import junkeritechnepal.nicasiacmp.modules.accounts.AccountPageScreen
 import junkeritechnepal.nicasiacmp.modules.camera.CameraScreen
 import junkeritechnepal.nicasiacmp.modules.dashboard.HomeScreen1
@@ -42,7 +42,7 @@ import junkeritechnepal.nicasiacmp.modules.sendmoney.SendMoneyContainerScreen
 import kotlinx.coroutines.launch
 
 @Composable
-fun DashboardContainerScreen(router: Router) {
+fun DashboardContainerScreen() {
 
     val pagerState = rememberPagerState(
         initialPage = 1, // Start with middle screen
@@ -55,8 +55,8 @@ fun DashboardContainerScreen(router: Router) {
         modifier = Modifier.fillMaxSize()
     ) { page ->
         when (page) {
-            0 -> AccountPageScreen(router)
-            1 -> DashboardScreen(router)
+            0 -> AccountPageScreen()
+            1 -> DashboardScreen()
             2 -> CameraScreen()
             else -> Text("Unknown page")
         }
@@ -64,9 +64,9 @@ fun DashboardContainerScreen(router: Router) {
 }
 
 @Composable
-private fun DashboardScreen(
-    router: Router
-) {
+private fun DashboardScreen() {
+    val navigator = AppStackNavigatorProvider.current
+
     val items = listOf("Home", "Payments", "", "Transfers", "Profile")
 
     val pagerState = rememberPagerState(pageCount = { items.size })
@@ -113,8 +113,8 @@ private fun DashboardScreen(
         ) { innerPadding ->
             HorizontalPager(state = pagerState, modifier = Modifier.padding(innerPadding)) { page ->
                 when (page) {
-                    0 -> { HomeScreen1(router, scrollState) }
-                    3 -> { SendMoneyContainerScreen(router) }
+                    0 -> { HomeScreen1( scrollState) }
+                    3 -> { SendMoneyContainerScreen() }
                     4 -> { ProfileContainerScreen() }
                     else -> { Text("Current tab $page") }
                 }
